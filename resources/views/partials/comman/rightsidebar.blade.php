@@ -1,4 +1,3 @@
-
 <div class="right-bar">
     <div class="rightbar-title">
         <a href="javascript:void(0);" class="right-bar-toggle float-right">
@@ -10,7 +9,8 @@
         <!-- User box -->
         <div class="user-box">
             <div class="user-img">
-                <img src="{{ asset('storage/'.Auth::user()->avtar) }}" alt="user-img" title="{{ ucfirst(Auth::user()->name) }}" class="rounded-circle img-fluid user-avtar ">
+                <img src="{{ asset('storage/' . Auth::user()->avtar) }}" alt="user-img"
+                    title="{{ ucfirst(Auth::user()->name) }}" class="rounded-circle img-fluid user-avtar ">
                 @if(Auth::user()->roles()->first()->type == 0)
                     <a href="{{ url('my-profile') }}" class="user-edit"><i class="mdi mdi-pencil"></i></a>
                 @else
@@ -18,7 +18,7 @@
                 @endif
 
             </div>
-    
+
             <h5><a href="javascript: void(0);">{{ ucfirst(Auth::user()->name) }}</a> </h5>
             <p class="text-muted mb-0"><small>{{ ucfirst(Auth::user()->roles()->first()->role_name) }}</small></p>
         </div>

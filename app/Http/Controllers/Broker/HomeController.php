@@ -11,7 +11,6 @@ use Image;
 use App\User;
 use App\Status;
 use App\Application;
-use App\BusinessProposal;
 use App\Inquiry;
 
 class HomeController extends Controller

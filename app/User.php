@@ -96,9 +96,6 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function roles()
     {
-        /**
-         * The roles that belong to the user.
-         */
         return $this->belongsToMany('App\Role')->withTimestamps();
     }
 
@@ -113,20 +110,10 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasOne('App\Application')->where('stage', '!=', null)->orderBy('created_at', 'desc')->first();
     }
 
-    /*public function stage_application_edit(){
-        return $this->hasOne('App\Application')
-                    ->where('stage', '=', null)
-                    ->when($this->applications()->count() >= 2, function ($query) {
-                        $query->latest('created_at')->first();
-                    });
-    }*/
-
     public function stage_application_edit()
     {
         return $this->hasOne('App\Application')->where('stage', '=', null)->latest('created_at')->first();
     }
-
-
 
     public function createdAt()
     {
@@ -137,16 +124,6 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->roles->first()->type == self::USER_TYPE;
     }
-
-    /*public function is_admin()
-    {
-       return $this->roles->first()->type == self::ADMIN_TYPE;
-    }*/
-
-    /*public function is_broker()
-    {
-       return $this->roles->first()->type == self::ADMIN_TYPE;
-    }*/
 
     public function is_admin()
     {
@@ -175,13 +152,4 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return ucfirst($value);
     }
-
-    /*public static function check_users_credential($type, $email, $password)
-    {
-        echo $email;
-        echo Hash::make($password);
-        return self::wheretype($type)->whereemail($email)->wherepassword(Hash::make($password))->get()->count();
-    }*/
-
-
 }

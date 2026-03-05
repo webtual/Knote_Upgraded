@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 use App\User;
 use App\Inquiry;
 use Hash;
-use App\Rules\Captcha;
+
 //use App\Mail\PopUpInquiry;
 use App\Jobs\SendInquiryEmail;
 use App\Jobs\CallBackInquiryEmailToAdmin;
@@ -211,7 +211,7 @@ class InquiryController extends Controller
             'contact' => 'required|regex:/^[0-9]+$/|min:10',
             'email' => 'required|email',
             'purpose_of_visit' => 'required',
-            //'g-recaptcha-response' => new Captcha(),
+
         ]);
         */
 

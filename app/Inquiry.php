@@ -9,23 +9,14 @@ use Carbon\Carbon;
 class Inquiry extends Model
 {
     use SoftDeletes;
-    
 
-    /* public function inquiryable()
+
+    public function createdAt()
     {
-        return $this->morphTo();
+        return Carbon::parse($this->created_at)->format('Y-m-d');
     }
-    
-    public static function check_visitor_inquiry_is_exit($inquirieable_id, $contact, $email){
-    	return self::where('inquirieable_id', $inquirieable_id)->where('contact', $contact)->where('email', $email)->first();
-    }*/
-    
-   	public function createdAt()
-	{
-    	return Carbon::parse($this->created_at)->format('Y-m-d');
-	}
-	
-	public function user()
+
+    public function user()
     {
         return $this->belongsTo('App\User')->withTrashed();
     }

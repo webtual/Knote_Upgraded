@@ -107,9 +107,6 @@ class HomeController extends Controller
             $data['applicant_count'] = User::whereHas('roles', function (Builder $query) {
                 $query->where('slug', '=', 'loan-applicant');
             })->get()->count();
-            $data['assistant_count'] = User::whereHas('roles', function (Builder $query) {
-                $query->where('slug', '=', 'assistant');
-            })->get()->count();
 
             return view('admin.dashboard', $data);
         } else if (auth()->user()->roles->first()->slug == 'loan-applicant') {

@@ -9,10 +9,11 @@ use Cache;
 class Setting extends Model
 {
 	use SoftDeletes;
-	
-	
-	public static function get($key){
-		if (Cache::has($key)){
+
+
+	public static function get($key)
+	{
+		if (Cache::has($key)) {
 			return Cache::get($key);
 		} else {
 			$values = self::where('key', $key)->pluck('value')->first();
@@ -21,30 +22,14 @@ class Setting extends Model
 		}
 	}
 
-	public static function set($key, $value){
-		if(self::where('key', $key)->first() == null){
+	public static function set($key, $value)
+	{
+		if (self::where('key', $key)->first() == null) {
 			$data = array('key' => $key, 'value' => $value);
 			return self::insert($data);
-		}else{
+		} else {
 			$data = array('value' => $value);
 			return self::where('key', $key)->update($data);
-		}	
+		}
 	}
-	
-	
-	/*public static function get($key){
-	    
-		return self::where('key', $key)->pluck('value')->first();
-	}
-
-	public static function set($key, $value){
-		if(self::where('key', $key)->first() == null){
-			$data = array('key' => $key, 'value' => $value);
-			return self::insert($data);
-		}else{
-			$data = array('value' => $value);
-			return self::where('key', $key)->update($data);
-		}	
-	}*/
-	
 }

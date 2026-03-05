@@ -10,8 +10,8 @@ use Carbon\Carbon;
 class ReviewNote extends Model
 {
     use SoftDeletes;
-    
-   	public function applications()
+
+    public function applications()
     {
         return $this->belongsToMany('App\Application');
     }
@@ -20,14 +20,8 @@ class ReviewNote extends Model
     {
         return $this->belongsTo('App\User', 'reviewer_id');
     }
-
-
-
     public function time_ago()
     {
         return Carbon::parse($this->created_at)->diffForHumans();
     }
-
-
-
 }

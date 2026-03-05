@@ -57,12 +57,6 @@ class Application extends Model
         return $this->belongsTo('App\Status', 'status_id');
     }
 
-    /*
-    public function status_history(){
-        return $this->hasMany('App\ApplicationStatus');
-    }
-    */
-
     public function documents()
     {
         return $this->hasMany('App\Document');

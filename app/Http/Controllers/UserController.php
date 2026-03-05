@@ -6,7 +6,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
 use App\User;
-use App\PreferenceQuestion;
 use Image;
 use Hash;
 use App\Traits\Loggable;
@@ -309,14 +308,12 @@ class UserController extends Controller
 
     public function my_profile()
     {
-        $pre_question = PreferenceQuestion::whererole_id(auth()->user()->roles()->first()->id)->get();
-        return view('user-my-profile', compact('pre_question'));
+        return view('user-my-profile');
     }
 
     public function myProfile()
     {
-        $pre_question = PreferenceQuestion::whererole_id(auth()->user()->roles()->first()->id)->get();
-        return view('my-profile', compact('pre_question'));
+        return view('my-profile');
     }
 
     public function myProfileUpdate(Request $request)
@@ -417,18 +414,5 @@ class UserController extends Controller
         return view('admin.users.loan-applicants');
     }
 
-
-    public function createAssistant()
-    {
-        return view('admin.assistants.create');
-    }
-
-    public function assistants()
-    {
-        $users = User::whereHas('roles', function ($q) {
-            $q->where('role_id', '=', 2);
-        })->get();
-        return view('admin.assistants.list', compact('users'));
-    }
 
 }

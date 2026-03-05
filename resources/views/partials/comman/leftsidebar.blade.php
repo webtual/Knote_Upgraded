@@ -6,7 +6,7 @@
       <div id="sidebar-menu">
          <ul class="metismenu" id="side-menu">
             <li class="menu-title">Navigation</li>
-            @if((auth()->user()->roles()->first()->role_name != "Admin") && (auth()->user()->roles()->first()->role_name != "Assistant") && (auth()->user()->roles()->first()->role_name != "Broker"))
+            @if((auth()->user()->roles()->first()->role_name != "Admin") && (auth()->user()->roles()->first()->role_name != "Broker"))
                <li class="">
                   <a href="{{ url('dashboard') }}" aria-expanded="false">
                      <i class="fe-airplay"></i>
@@ -125,14 +125,6 @@
                   </li>
                @endif
 
-            @elseif(auth()->user()->roles()->first()->role_name == "Assistant")
-
-               <li class="">
-                  <a href="{{ url('admin/dashboard') }}" aria-expanded="false">
-                     <i class="fe-airplay"></i>
-                     <span> Dashboard </span>
-                  </a>
-               </li>
 
             @elseif(auth()->user()->roles()->first()->role_name == "Loan Applicant")
                <li>

@@ -204,28 +204,7 @@
                <!-- end card-box-->
             </div>
             <!-- end col -->
-            <div class="col-md-6 col-xl-2">
-               <a href="{{ url('admin/users').'?type=entrepreneur' }}">
-                  <div class="card-box p-2">
-                     <div class="row">
-                        <div class="col-2">
-                           <div class="avatar-sm bg-dark rounded">
-                              <i class="fe-users avatar-title font-22 text-white"></i>
-                           </div>
-                        </div>
-                        <div class="col-10">
-                           <div class="text-right">
-                              <h3 class="text-dark my-1"><span data-plugin="counterup">{{ $entrepreneur_count }}</span>
-                              </h3>
-                              <p class="text-muted mb-1 text-truncate">Entrepreneurs</p>
-                           </div>
-                        </div>
-                     </div>
-                  </div>
-               </a>
-               <!-- end card-box-->
-            </div>
-            <!-- end col -->
+
             <div class="col-md-6 col-xl-2">
                <a href="{{ url('admin/loan-applications') }}">
                   <div class="card-box p-2">
@@ -248,26 +227,6 @@
             </div>
             <!-- end col -->
             <!-- end col -->
-            <div class="col-md-6 col-xl-2">
-               <a href="{{ url('admin/assistants') }}">
-                  <div class="card-box p-2">
-                     <div class="row">
-                        <div class="col-6">
-                           <div class="avatar-sm bg-success rounded">
-                              <i class="fe-users avatar-title font-22 text-white"></i>
-                           </div>
-                        </div>
-                        <div class="col-6">
-                           <div class="text-right">
-                              <h3 class="text-dark my-1"><span data-plugin="counterup">{{ $assistant_count }}</span></h3>
-                              <p class="text-muted mb-1 text-truncate">Assistant</p>
-                           </div>
-                        </div>
-                     </div>
-                  </div>
-               </a>
-               <!-- end card-box-->
-            </div>
             <!-- end col -->
             --}}
          </div>

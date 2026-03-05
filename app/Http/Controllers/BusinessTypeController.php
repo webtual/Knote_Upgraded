@@ -20,10 +20,6 @@ class BusinessTypeController extends Controller
     {
         return view('admin.business_types.create');
     }
-
-
-
-
     public function store(Request $request)
     {
         $rules = [

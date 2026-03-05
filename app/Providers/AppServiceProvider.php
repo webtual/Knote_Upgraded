@@ -66,24 +66,10 @@ class AppServiceProvider extends ServiceProvider
          return $user->roles()->first()->slug == 'broker';
       });
 
-      Gate::define('isAssistant', function ($user) {
-         return $user->roles()->first()->slug == 'assistant';
-      });
 
       Gate::define('isLoanApplicant', function ($user) {
          return $user->roles()->first()->slug == 'loan-applicant';
       });
-
-      Gate::define('isEntrepreneur', function ($user) {
-         return $user->roles()->first()->slug == 'entrepreneur';
-      });
-
-      Gate::define('isInvestor', function ($user) {
-         return $user->roles()->first()->slug == 'investor';
-      });
-
-
-
 
       Gate::define('update-application', 'App\Policies\ApplicationPolicy@update');
       Gate::define('delete-application', 'App\Policies\ApplicationPolicy@delete');

@@ -1,4 +1,4 @@
-@extends('layouts._landing_master')
+@extends('layouts.user')
 @section('title', 'Knote - Dashboard')
 @section('content')
 
@@ -160,7 +160,7 @@
                      <div class="border-bottom mb-3 pb-2">
                         <div class="d-inline-flex">
                            <i class="fa fa-file-pdf-o" aria-hidden="true
-                                    "></i>
+                                       "></i>
                            <div class="">
                               <h6 class="mb-0"> <strong>Document one</strong> </h6>
                               <time class="text-muted">30-01-2020</time>
@@ -170,7 +170,7 @@
                      <div class="border-bottom mb-3 pb-2">
                         <div class="d-inline-flex">
                            <i class="fa fa-file-pdf-o" aria-hidden="true
-                                    "></i>
+                                       "></i>
                            <div class="">
                               <h6 class="mb-0"> <strong>Document two </strong> </h6>
                               <time class="text-muted">30-01-2020</time>
