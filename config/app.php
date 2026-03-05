@@ -53,10 +53,10 @@ return [
     */
 
     //'url' => env('APP_URL', 'https://www.knote.com.au/internal'),
-    'url' => env('APP_URL', 'https://dev.thewebtual.com/knote-dev'),
-    
+    'url' => env('APP_URL', 'http://localhost:8082'),
+
     //'asset_url' => env('ASSET_URL', 'https://www.knote.com.au/internal/public'),
-    'asset_url' => env('ASSET_URL', 'https://dev.thewebtual.com/knote-dev/public'),
+    'asset_url' => env('ASSET_URL', 'http://localhost:8082/public'),
 
     /*
     |--------------------------------------------------------------------------

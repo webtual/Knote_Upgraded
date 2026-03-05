@@ -11,7 +11,7 @@ class ApplicationPolicy
     use HandlesAuthorization;
 
     /**
-     * Determine whether the user can view any resources.
+     * Determine whether the user can view any applications.
      *
      * @param  \App\User  $user
      * @return mixed
@@ -22,10 +22,10 @@ class ApplicationPolicy
     }
 
     /**
-     * Determine whether the user can view the resource.
+     * Determine whether the user can view the application.
      *
      * @param  \App\User  $user
-     * @param  \App\Resource  $resource
+     * @param  \App\Application  $application
      * @return mixed
      */
     public function view(User $user, Application $application)
@@ -34,7 +34,7 @@ class ApplicationPolicy
     }
 
     /**
-     * Determine whether the user can create resources.
+     * Determine whether the user can create applications.
      *
      * @param  \App\User  $user
      * @return mixed
@@ -45,42 +45,42 @@ class ApplicationPolicy
     }
 
     /**
-     * Determine whether the user can update the resource.
+     * Determine whether the user can update the application.
      *
      * @param  \App\User  $user
-     * @param  \App\Resource  $resource
+     * @param  \App\Application  $application
      * @return mixed
      */
     public function update(User $user, Application $application)
     {
-        if($user->roles()->first()->type == 1){
+        if ($user->roles()->first()->type == 1) {
             return true;
-        }else{
-            return $user->id === $application->user_id;   
+        } else {
+            return $user->id === $application->user_id;
         }
     }
 
     /**
-     * Determine whether the user can delete the resource.
+     * Determine whether the user can delete the application.
      *
      * @param  \App\User  $user
-     * @param  \App\Resource  $resource
+     * @param  \App\Application  $application
      * @return mixed
      */
     public function delete(User $user, Application $application)
     {
-        if($user->roles()->first()->type == 1){
+        if ($user->roles()->first()->type == 1) {
             return true;
-        }else{
-            return $user->id === $application->user_id;   
+        } else {
+            return $user->id === $application->user_id;
         }
     }
 
     /**
-     * Determine whether the user can restore the resource.
+     * Determine whether the user can restore the application.
      *
      * @param  \App\User  $user
-     * @param  \App\Resource  $resource
+     * @param  \App\Application  $application
      * @return mixed
      */
     public function restore(User $user, Application $application)
@@ -89,10 +89,10 @@ class ApplicationPolicy
     }
 
     /**
-     * Determine whether the user can permanently delete the resource.
+     * Determine whether the user can permanently delete the application.
      *
      * @param  \App\User  $user
-     * @param  \App\Resource  $resource
+     * @param  \App\Application  $application
      * @return mixed
      */
     public function forceDelete(User $user, Application $application)

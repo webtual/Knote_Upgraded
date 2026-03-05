@@ -29,7 +29,6 @@ return [
 
     'document_types' => array(1 => 'Proof of Identity', 'Business Financials', 'Contract of Sale of any other property documents', 'Other Docs'),
 
-    'want_to_business_proposal' => array(1 => 'START-UP', 'ACCELERATION', 'REALISE AND RELEASE POTENTIAL', 'COMMERCIALISATION OF IP', 'SALES AND MARKETING', 'EXIT AND CAPITALISATION'),
     'approval_status' => array(0 => 'Pending', 'Approved', 'Reject'),
     'purpose_of_visits' => array(1 => 'I want to find resources', 'Other'),
     'field_types' => array(1 => 'selection', 'radio', 'input'),

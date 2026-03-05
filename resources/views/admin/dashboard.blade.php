@@ -247,48 +247,6 @@
                <!-- end card-box-->
             </div>
             <!-- end col -->
-            <div class="col-md-6 col-xl-2">
-               <a href="{{ url('admin/business-proposals') }}">
-                  <div class="card-box p-2">
-                     <div class="row">
-                        <div class="col-2">
-                           <div class="avatar-sm bg-success rounded">
-                              <i class="fe-briefcase avatar-title font-22 text-white"></i>
-                           </div>
-                        </div>
-                        <div class="col-10">
-                           <div class="text-right">
-                              <h3 class="text-dark my-1"><span data-plugin="counterup">{{ $business_proposal_count
-                                    }}</span></h3>
-                              <p class="text-muted mb-1 text-truncate">Business Proposal</p>
-                           </div>
-                        </div>
-                     </div>
-                  </div>
-               </a>
-               <!-- end card-box-->
-            </div>
-            <!-- end col -->
-            <div class="col-md-6 col-xl-2">
-               <a href="{{ url('admin/resources') }}">
-                  <div class="card-box p-2">
-                     <div class="row">
-                        <div class="col-6">
-                           <div class="avatar-sm bg-warning rounded">
-                              <i class="fe-layers avatar-title font-22 text-white"></i>
-                           </div>
-                        </div>
-                        <div class="col-6">
-                           <div class="text-right">
-                              <h3 class="text-dark my-1"><span data-plugin="counterup">{{ $resource_count }}</span></h3>
-                              <p class="text-muted mb-1 text-truncate font-13"> Resources </p>
-                           </div>
-                        </div>
-                     </div>
-                  </div>
-               </a>
-               <!-- end card-box-->
-            </div>
             <!-- end col -->
             <div class="col-md-6 col-xl-2">
                <a href="{{ url('admin/assistants') }}">

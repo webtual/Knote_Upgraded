@@ -8,8 +8,6 @@ use Illuminate\Database\Eloquent\Builder;
 use App\User;
 use App\Status;
 use App\Application;
-use App\Resource;
-use App\BusinessProposal;
 use App\Inquiry;
 
 class HomeController extends Controller
@@ -33,8 +31,9 @@ class HomeController extends Controller
     {
         return view('home');
     }
-    
-    public function dashboard_application_export(Request $request){
+
+    public function dashboard_application_export(Request $request)
+    {
         $t = time();
 
         $filename = "Current-Loan-Application-Export-" . $t;
@@ -46,11 +45,11 @@ class HomeController extends Controller
             "Cache-Control" => "must-revalidate, post-check=0, pre-check=0",
             "Expires" => "0"
         );
-        
+
         $bom = "\xEF\xBB\xBF"; // UTF-8 BOM
-        
-        $data = Application::whereNotIn('status_id', [8,10,11]);
-        
+
+        $data = Application::whereNotIn('status_id', [8, 10, 11]);
+
         if ($request->has('search_status') && $request->filled('search_status')) {
             $search_status = Status::where('status', $request->search_status)->first();
             $data->where('status_id', $search_status->id);
@@ -62,7 +61,7 @@ class HomeController extends Controller
         $callback = function () use ($data, $columns, $bom) {
             $file = fopen('php://output', 'w');
             echo $bom;
-            
+
             fputcsv($file, $columns);
 
             foreach ($data as $row) {
@@ -73,7 +72,7 @@ class HomeController extends Controller
                 $apply_for = config('constants.apply_for');
                 $apply_for_val = $apply_for[$row->apply_for];
                 $created_at = display_date_format($row->created_at);
-                
+
                 $abn_or_acn = $row->abn_or_acn;
                 $structure_type = $row->business_structure->structure_type;
                 $years_of_established = $row->years_of_established;
@@ -91,42 +90,30 @@ class HomeController extends Controller
 
         die();
     }
-    
+
     public function dashboard()
-    {   
-        if(auth()->user()->roles->first()->type == 1){
-            $application_data = Application::whereNotIn('status_id', [8,10,11])->orderBy('id', 'DESC')->orderBy('id', 'DESC')->get();
-            $data['application_status'] = Status::whereNotIn('id', [8,10,11])->orderBy('order_number', 'ASC')->get();
+    {
+        if (auth()->user()->roles->first()->type == 1) {
+            $application_data = Application::whereNotIn('status_id', [8, 10, 11])->orderBy('id', 'DESC')->orderBy('id', 'DESC')->get();
+            $data['application_status'] = Status::whereNotIn('id', [8, 10, 11])->orderBy('order_number', 'ASC')->get();
             $data['applications'] = $application_data;
             $data['application_count'] = $application_data->count();
-            
+
             $data['application_declined_count'] = Application::whereIn('status_id', [8])->orderBy('id', 'DESC')->orderBy('id', 'DESC')->get()->count();
             $data['application_archived_count'] = Application::whereIn('status_id', [10])->orderBy('id', 'DESC')->orderBy('id', 'DESC')->get()->count();
             $data['application_setteled_count'] = Application::whereIn('status_id', [11])->orderBy('id', 'DESC')->orderBy('id', 'DESC')->get()->count();
             $data['inquiry_count'] = Inquiry::orderBy('id', 'DESC')->orderBy('id', 'DESC')->get()->count();
-            
+
             $data['applicant_count'] = User::whereHas('roles', function (Builder $query) {
-                                            $query->where('slug', '=', 'loan-applicant');
-                                        })->get()->count();
-            $data['entrepreneur_count'] = User::whereHas('roles', function (Builder $query) {
-                                            $query->where('slug', '=', 'entrepreneur');
-                                        })->get()->count();
-            $data['investor_count'] = User::whereHas('roles', function (Builder $query) {
-                                            $query->where('slug', '=', 'investor');
-                                        })->get()->count();
+                $query->where('slug', '=', 'loan-applicant');
+            })->get()->count();
             $data['assistant_count'] = User::whereHas('roles', function (Builder $query) {
-                                            $query->where('slug', '=', 'assistant');
-                                        })->get()->count();
-            $data['resource_count'] = Resource::get()->count();
-            $data['business_proposal_count'] = BusinessProposal::get()->count();
+                $query->where('slug', '=', 'assistant');
+            })->get()->count();
 
             return view('admin.dashboard', $data);
-        }else if(auth()->user()->roles->first()->slug == 'loan-applicant'){
+        } else if (auth()->user()->roles->first()->slug == 'loan-applicant') {
             return view('applicant.dashboard');
-        }else if(auth()->user()->roles->first()->slug == 'entrepreneur'){
-            return view('entrepreneur.dashboard');
-        }else if(auth()->user()->roles->first()->slug == 'investor'){
-            return view('investor.dashboard');
         }
     }
 
@@ -134,8 +121,9 @@ class HomeController extends Controller
 
     /**
      * Static Pages
-    */
-    public function policy(){
+     */
+    public function policy()
+    {
         return view('policy');
     }
 
