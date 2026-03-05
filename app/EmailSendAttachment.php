@@ -1,0 +1,10 @@
+<?php
+namespace App;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
+
+class EmailSendAttachment extends Model {
+	use SoftDeletes;   	
+	
+	protected $fillable = ['id', 'email_send_id', 'file_name', 'created_at', 'updated_at', 'deleted_at'];
+}

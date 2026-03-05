@@ -1,0 +1,337 @@
+/*.navbar-custom {
+background-color: #3b434c;
+}*/
+
+.loan-applicant-class{
+    background: #000;
+}
+
+body::-webkit-scrollbar {
+  width: 11px;
+}
+body {
+  scrollbar-width: thin;
+  scrollbar-color: #fff #1abc9c;
+}
+body::-webkit-scrollbar-track {
+  background: #1abc9c;
+}
+body::-webkit-scrollbar-thumb {
+  background-color: #fff;
+  border-radius: 6px;
+  border: 3px solid #1abc9c;
+}
+
+
+.enlarged .left-side-menu #sidebar-menu>ul>li:hover>a {
+background-color: #2eab99;
+}
+
+.color-knote{
+background: #136958;
+}
+.sidebar-menu-color-wt li{
+color:#FFFFFF !important;
+}
+.sidebar-menu-color-wt a{
+color:#FFFFFF !important;
+}
+.sidebar-menu-color-wt span{
+color:#FFFFFF !important;
+}
+.logo-sm-text-dark{
+color: #FFFFFF;
+}
+#sidebar-menu ul li.active{
+background-color: #2eab99;
+color: white;
+}
+#sidebar-menu ul li:hover {
+background-color: #2eab99;
+color: white;
+}
+#particals{
+position : absolute; width:100%;
+height:100%; z-index:-1;
+}
+
+.edit-pin{
+ color: #2eab99;
+ }
+ .tnc-scroll{
+ height: 150px;
+ overflow-x: hidden;
+ }
+
+
+/*----review page css----*/
+.card-box a {
+	color: #444;
+}
+.card-box a .fa{
+	margin-right: 5px;
+}
+
+/*.card-box a:hover {*/
+/*	color: #2dc899;*/
+/*}*/
+
+.loan-review .basic-info div strong {
+    /*display: table-cell;*/
+    display: inline-flex;
+    min-width: 200px;
+}
+
+.loan-review .basic-info div span {
+    /*display: table-cell;*/
+}
+
+
+.document-table td.review-tab-color-font {
+    width: 20%;
+}
+
+.document-table td a {
+	 color: #1abc9c;
+}
+
+#review .borderless td, .borderless th {
+    border: none;
+}
+
+#review .borderless tr td{
+    padding-left: 0px;
+    font-weight: bold;
+}
+
+#review .borderless tr td a{
+   font-weight: 400;
+}
+
+
+#review table {
+    border-collapse: separate;
+}
+
+#review .section-header h2 {
+    font-size: 24px;
+    color: #444;
+    text-transform: uppercase;
+    font-weight: 600;
+    position: relative;
+    padding-bottom: 10px;
+}
+
+#review .section-header h2:before {
+    content: '';
+    position: absolute;
+    display: block;
+    width: 50px;
+    height: 3px;
+    background: #23ab98;
+    bottom: 0;
+    left: 0;
+}
+
+ul.what-we-need-apply{
+    padding: 0px;
+    margin-top: 20px;
+}
+
+ul.what-we-need-apply li {
+    font-size: 16px;
+    padding-bottom: 5px;
+}
+ul.what-we-need-apply li i {
+    color: #1abc9c;
+}
+ul li {
+    list-style: none;
+}
+.have-questions ul{
+    padding: 0px;
+}
+.have-questions ul li a {
+    font-size: 16px;
+    color: #0AC6A6;
+    font-weight: 500;
+}
+.have-questions ul li{
+    padding-bottom: 15px;
+}
+.have-questions p{
+    font-size: 16px;
+}
+
+.have-questions ul li span{
+    padding-left: 20px;
+}
+
+.input-pos-relative{
+    position: relative;
+}
+
+.input-pos-relative span.currency-symbol{
+    position: absolute;
+    top: 37px;
+    left: 5px;
+    font-weight: 900;
+}
+
+td.input-pos-relative span.currency-symbol {
+    position: absolute;
+    /*top: 11px;*/
+    /*left: 14px;*/
+    top: 50%;
+    transform: translateY(-50%);
+    left: 14px;
+    
+    font-weight: 900;
+}
+
+.document-page .gallery{
+    background: #2eab990a;
+    padding: 25px;
+    border-radius: 5px;
+    margin: 0px 0px;
+}
+
+.document-page .gallery .item img{
+    /*height: 150px;*/
+    /*object-fit: contain;*/
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
+}
+
+.document-page .gallery .item{
+    text-align: center;
+    background: #2eab9917;
+    padding: 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    height: 185px;
+    border: 1px solid #ccc;
+}
+
+.document-page .gallery .remove-document-img, .document-page .gallery .hard-remove-document-image{
+    margin: 0px;
+    position: absolute;
+    top: -10px;
+    right: 3px;
+    background: #136958;
+    color: #fff;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+}
+
+.document-page .gallery .remove-document-img i, .document-page .gallery .hard-remove-document-image i{
+    font-size: 16px;
+    position: absolute;
+    left: 4px;    
+}
+
+.app-submit{
+    background: #fff;
+    padding: 25px 15px;
+    border-radius: 5px;
+    margin-top: 15px;
+}
+
+
+
+
+#overlay{	
+  position: fixed;
+  top: 0;
+  z-index: 100;
+  width: 100%;
+  height:100%;
+  display: none;
+  background: rgb(0 0 0 / 70%)
+}
+
+#overlay img{
+    position: absolute;
+    width: 75px;
+    height: 75px;
+    left: 0;
+    right: 0;
+    margin: auto;
+    top: 45%;
+}
+
+.add-manual-amount-btn{
+    font-size: 16px;
+    position: absolute;
+    top: -10px;
+    right: 10px;
+    padding: 3px 8px;
+    background: #264038;
+    border-radius: 5px;
+}
+
+.d-property-sec-review{border: 1px solid #eee;padding: 14px;margin-bottom: 15px;}
+
+/**
+Slider
+*******/
+.irs--flat .irs-from:before, .irs--flat .irs-to:before, .irs--flat .irs-single:before {
+ 	border-top-color: #264038 !important;
+}
+
+.irs--flat .irs-bar {
+    background-color: #264038 !important;
+}
+
+.irs--flat .irs-from, .irs--flat .irs-to, .irs--flat .irs-single {
+    background-color: #264038 !important;
+}
+
+.irs--flat .irs-handle>i:first-child {
+    background-color: #264038 !important;
+}
+
+
+
+
+/*============07-12-2023===============*/
+.select2-container{
+  width: inherit !important;
+  display: block !important;
+}
+.content-page{
+    padding: 15px !important;
+}
+.document-page .gallery .col-3{
+   margin-bottom: 1.5rem;
+}
+.document-page .gallery .item{
+    aspect-ratio: 1/1;
+    height: inherit;
+}
+.review-section div.mb-0  {
+   display: flex;
+   flex-wrap: wrap;
+}
+.review-section div strong {
+    min-width: 150px !important;
+    /*float: left;*/
+}
+.review-section div span {
+   width: calc(100% - 150px);
+}
+.navbar-custom .topnav-menu>li {
+    float: inherit;
+}
+@media (max-width: 575.98px){
+.footer {font-size: 10px;}
+.content-page {padding: 10px !important;}
+.review-section div span {
+   width: 100% ;
+}
+.review-liabilities{
+    overflow-x: auto;
+}
+}
