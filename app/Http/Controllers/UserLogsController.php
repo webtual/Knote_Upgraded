@@ -2,8 +2,8 @@
 namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
-use App\User;
-use App\UserLogs;
+use App\Models\User;
+use App\Models\UserLogs;
 use Image;
 use Hash;
 use Yajra\DataTables\Facades\DataTables;

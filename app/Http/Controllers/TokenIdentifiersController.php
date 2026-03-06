@@ -4,11 +4,11 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
-use App\User;
-use App\TokenIdentifiers;
+use App\Models\User;
+use App\Models\TokenIdentifiers;
 use DataTables;
 use Illuminate\Support\Facades\Crypt;
-use App\Setting;
+use App\Models\Setting;
 use App\Traits\Loggable;
 
 class TokenIdentifiersController extends Controller

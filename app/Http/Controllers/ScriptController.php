@@ -4,9 +4,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Haruncpi\LaravelIdGenerator\IdGenerator;
 use Illuminate\Support\Facades\Hash;
-use App\User;
-use App\Inquiry;
-use App\Application;
+use App\Models\User;
+use App\Models\Inquiry;
+use App\Models\Application;
 
 class ScriptController extends Controller
 {

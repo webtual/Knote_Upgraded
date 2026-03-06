@@ -2,22 +2,17 @@
 
 namespace App\Providers;
 
-
-
-
-use App\Application;
+use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\Gate;
+use App\Models\Application;
 use App\Policies\ApplicationPolicy;
-
-//use Illuminate\Support\ServiceProvider;
-use Illuminate\Support\Facades\Schema; //NEW: Import Schema
-use Illuminate\Support\Facades\Gate; //New: RoleGate
-use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
-
-
+use Illuminate\Auth\Events\Registered;
+use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
+use Illuminate\Support\Facades\Event;
 
 class AppServiceProvider extends ServiceProvider
 {
-
    /**
     * The policy mappings for the application.
     *
@@ -27,24 +22,29 @@ class AppServiceProvider extends ServiceProvider
       Application::class => ApplicationPolicy::class,
    ];
 
-
    /**
     * Register any application services.
-    *
-    * @return void
     */
-   public function register()
+   public function register(): void
    {
       //
    }
 
    /**
     * Bootstrap any application services.
-    *
-    * @return void
     */
-   public function boot()
+   public function boot(): void
    {
+      // Register Policies
+      foreach ($this->policies as $model => $policy) {
+         Gate::policy($model, $policy);
+      }
+
+      // Event Listeners
+      Event::listen(
+         Registered::class,
+         SendEmailVerificationNotification::class
+      );
 
       /**
       Gates
@@ -57,7 +57,6 @@ class AppServiceProvider extends ServiceProvider
          return $user->roles()->first()->type == 0;
       });
 
-
       Gate::define('isAdmin', function ($user) {
          return $user->roles()->first()->slug == 'admin';
       });
@@ -66,20 +65,17 @@ class AppServiceProvider extends ServiceProvider
          return $user->roles()->first()->slug == 'broker';
       });
 
-
       Gate::define('isLoanApplicant', function ($user) {
          return $user->roles()->first()->slug == 'loan-applicant';
       });
 
-      Gate::define('update-application', 'App\Policies\ApplicationPolicy@update');
-      Gate::define('delete-application', 'App\Policies\ApplicationPolicy@delete');
+      Gate::define('update-application', [ApplicationPolicy::class, 'update']);
+      Gate::define('delete-application', [ApplicationPolicy::class, 'delete']);
 
       /**
       End Gates
       *************/
 
-
-      //
-      Schema::defaultStringLength(191); //NEW: Increase StringLength
+      Schema::defaultStringLength(191);
    }
 }

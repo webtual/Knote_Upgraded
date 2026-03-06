@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Log;
 
 use Illuminate\Support\Facades\Storage;
 use PDF;
-use App\TeamSize;
+use App\Models\TeamSize;
 
 class LoanApplicationConsentCreatePDF implements ShouldQueue{
     

@@ -5,10 +5,10 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
 
-use App\User;
-use App\AssessorReviewNote;
-use App\AssessorReviewDocuments;
-use App\Application;
+use App\Models\User;
+use App\Models\AssessorReviewNote;
+use App\Models\AssessorReviewDocuments;
+use App\Models\Application;
 
 use Validator;
 use Response;

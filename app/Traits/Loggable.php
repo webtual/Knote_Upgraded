@@ -1,7 +1,7 @@
 <?php
 namespace App\Traits;
 
-use App\UserLogs;
+use App\Models\UserLogs;
 
 trait Loggable
 {

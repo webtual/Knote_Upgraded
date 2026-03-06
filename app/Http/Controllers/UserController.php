@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
-use App\User;
+use App\Models\User;
 use Image;
 use Hash;
 use App\Traits\Loggable;
@@ -19,7 +19,7 @@ class UserController extends Controller
     use Loggable;
 
 
-    public function get_users(Request $request)
+    public function get_users(Request $request): \Illuminate\Http\JsonResponse
     {
         $customer_id = $request->customer_id;
         $data = User::find($customer_id);
@@ -27,7 +27,7 @@ class UserController extends Controller
         return response()->json(['status' => 200, 'message' => 'success.', 'data' => $data]);
     }
 
-    public function users_update(Request $request)
+    public function users_update(Request $request): \Illuminate\Http\JsonResponse
     {
         $customer_id = $request->customer_id;
 
@@ -64,7 +64,7 @@ class UserController extends Controller
     }
 
 
-    public function index()
+    public function index(): \Illuminate\View\View
     {
         return view('admin.users.list');
     }

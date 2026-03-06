@@ -6,7 +6,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-use App\Setting;
+use App\Models\Setting;
 
 
 class EmailMainTemplates extends Mailable implements ShouldQueue

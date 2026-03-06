@@ -7,11 +7,11 @@ use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
 
-use App\User;
-use App\Application;
+use App\Models\User;
+use App\Models\Application;
 use Auth;
 use Illuminate\Support\Facades\DB;
-use App\OtpVerification;
+use App\Models\OtpVerification;
 
 use App\Jobs\SentOtp;
 

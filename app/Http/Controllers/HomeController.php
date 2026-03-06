@@ -5,10 +5,10 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\Builder;
 
-use App\User;
-use App\Status;
-use App\Application;
-use App\Inquiry;
+use App\Models\User;
+use App\Models\Status;
+use App\Models\Application;
+use App\Models\Inquiry;
 
 class HomeController extends Controller
 {

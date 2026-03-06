@@ -6,9 +6,9 @@ use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
-use App\Application;
-use App\TeamSize;
-use App\CreditScoreEventLogs;
+use App\Models\Application;
+use App\Models\TeamSize;
+use App\Models\CreditScoreEventLogs;
 use Illuminate\Support\Facades\Request;
 
 trait EquifaxScoreseeker

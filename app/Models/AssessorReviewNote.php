@@ -1,0 +1,30 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
+
+use Carbon\Carbon;
+
+class AssessorReviewNote extends Model
+{
+    use SoftDeletes;
+    
+   	public function applications(){
+        return $this->belongsToMany('App\Models\Application');
+    }
+
+    public function user(){
+        return $this->belongsTo('App\Models\User', 'reviewer_id');
+    }
+
+    public function time_ago(){
+        return Carbon::parse($this->created_at)->diffForHumans();
+    }
+    
+    public function assessor_docs(){
+        return $this->hasMany('App\Models\AssessorReviewDocuments', 'assessor_review_note_id');
+    }
+    
+}

@@ -4,15 +4,15 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
-use App\User;
-use App\Application;
-use App\EmailTemplate;
-use App\EmailSendAttachment;
+use App\Models\User;
+use App\Models\Application;
+use App\Models\EmailTemplate;
+use App\Models\EmailSendAttachment;
 use DataTables;
 use Illuminate\Support\Facades\Crypt;
 use App\Mail\EmailMainTemplates;
-use App\Setting;
-use App\EmailSend;
+use App\Models\Setting;
+use App\Models\EmailSend;
 use App\Traits\Loggable;
 
 class EmailTemplatesController extends Controller

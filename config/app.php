@@ -172,14 +172,9 @@ return [
          * Application Service Providers...
          */
         App\Providers\AppServiceProvider::class,
-        App\Providers\AuthServiceProvider::class,
-        // App\Providers\BroadcastServiceProvider::class,
-        App\Providers\EventServiceProvider::class,
-        App\Providers\RouteServiceProvider::class,
 
-        RenatoMarinho\LaravelPageSpeed\ServiceProvider::class, /** Page Speed **/
-        Intervention\Image\ImageServiceProvider::class, /** Image Intervention **/
-        RenatoMarinho\LaravelPageSpeed\ServiceProvider::class, /** Page Speed **/
+        VinkiusLabs\LaravelPageSpeed\ServiceProvider::class, /** Page Speed **/
+        Intervention\Image\Laravel\ServiceProvider::class, /** Image Intervention **/
         Orangehill\Iseed\IseedServiceProvider::class, /** Seed Creation [php artisan iseed my_table,another_table] **/
         Yajra\DataTables\DataTablesServiceProvider::class, /** Laravel DataTable **/
 
@@ -234,7 +229,7 @@ return [
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
-        'Image' => Intervention\Image\Facades\Image::class,
+        'Image' => Intervention\Image\Laravel\Facades\Image::class,
         'DataTables' => Yajra\DataTables\Facades\DataTables::class, /** Laravel DataTable **/
         //'PDF' => Barryvdh\DomPDF\Facade::class,
 

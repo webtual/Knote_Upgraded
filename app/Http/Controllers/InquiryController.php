@@ -5,8 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 //use Illuminate\Support\Facades\Mail;
 
-use App\User;
-use App\Inquiry;
+use App\Models\User;
+use App\Models\Inquiry;
 use Hash;
 
 //use App\Mail\PopUpInquiry;
