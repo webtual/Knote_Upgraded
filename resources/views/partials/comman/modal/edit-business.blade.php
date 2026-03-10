@@ -8,8 +8,8 @@
                 </button>
             </div>
             @php
-                $business_structures = \App\BusinessStructure::get();
-                $business_types = \App\BusinessType::wheretype(3)->get();
+                $business_structures = \App\Models\BusinessStructure::get();
+                $business_types = \App\Models\BusinessType::wheretype(3)->get();
                 $check_status_array = [1,3];
                 $application_id = $application->id;
             @endphp
@@ -135,8 +135,8 @@
                        
                         <div class="col-md-12">
                             <div class="form-group">
-                                <label for="">Add Brief notes (What’s the loan for , give us a little background of requirement and proposal)<span class="text-danger">*</span></label>
-                                <textarea name="brief_notes" class="form-control" id="brief_notes" placeholder="Add Brief notes">{{ ($application) ? $application->brief_notes : '' }}</textarea>
+                                <label for="">Add Exit Strategy and Brief Notes (What’s the loan for , give us a little background of requirement and proposal)<span class="text-danger">*</span></label>
+                                <textarea name="brief_notes" class="form-control" id="brief_notes" placeholder="Add Exit Strategy and Brief Notes">{{ ($application) ? $application->brief_notes : '' }}</textarea>
                             </div>
                         </div>
                     </div>

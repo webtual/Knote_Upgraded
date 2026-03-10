@@ -73,8 +73,8 @@
                         <a href="javascript:;" class=" font-15" id="personal-info-text"><u>Edit</u></a>
                         <!--<a href="my-profile#change-password" class=" font-15"><u>Change Password</u></a>-->
                      </h5>
-                     <img src="{{ asset('storage/' . Auth::user()->avtar) }}" class="rounded-circle avatar-lg img-thumbnail"
-                        alt="profile-image">
+                     <img src="{{ asset('storage/' . Auth::user()->avtar) }}"
+                        class="rounded-circle avatar-lg img-thumbnail" alt="profile-image">
                      <div class="text-left mt-3">
                         <h4 class="font-13 text-uppercase">About Us :</h4>
                         <p class="text-muted font-13 mb-3">
@@ -96,9 +96,15 @@
                <!-- end card-box -->
             </div>
          </div>
-         $('#personal-info-text').click(function(){
+      </div>
+   </div>
+@endsection
+@section('scripts')
+   <script src="{{ asset('comman/js/pages/cropme.js') }}"></script>
+   <script type="text/javascript">
+      $('#personal-info-text').click(function () {
          $('#my-profile-show').addClass('d-none');
          $('#my-profile-text').removeClass('d-none');
-         });
-         </script>
+      });
+   </script>
 @endsection

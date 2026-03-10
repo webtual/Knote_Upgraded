@@ -516,6 +516,7 @@ class ApplicationController extends Controller
     {
 
         $rules = [
+            "property_owner" => "required",
             "property_address" => "required",
             "property_value" => "required",
         ];
@@ -533,6 +534,7 @@ class ApplicationController extends Controller
             'application_id' => $application_id,
             'purpose' => $request->hidden_purpose,
             'property_type' => $request->hidden_property_type,
+            'property_owner' => $request->property_owner,
             'property_address' => $request->property_address,
             'property_value' => get_num_from_string($request->property_value)
         ];
@@ -557,6 +559,7 @@ class ApplicationController extends Controller
     {
 
         $rules = [
+            "property_owner" => "required",
             "property_address" => "required",
             "property_value" => "required",
         ];
@@ -573,6 +576,7 @@ class ApplicationController extends Controller
             'application_id' => $application_id,
             'purpose' => $request->hidden_purpose,
             'property_type' => $request->hidden_property_type,
+            'property_owner' => $request->property_owner,
             'property_address' => $request->property_address,
             'property_value' => get_num_from_string($request->property_value)
         ];
@@ -621,6 +625,7 @@ class ApplicationController extends Controller
             'application_id' => $application_id,
             'purpose' => $request->hidden_purpose,
             'property_type' => $request->hidden_property_type,
+            'property_owner' => $request->property_owner,
             'property_address' => $request->property_address,
             'property_value' => get_num_from_string($request->property_value)
         ];
@@ -660,6 +665,7 @@ class ApplicationController extends Controller
             'application_id' => $application_id,
             'purpose' => $request->hidden_purpose,
             'property_type' => $request->hidden_property_type,
+            'property_owner' => $request->property_owner,
             'property_address' => $request->property_address,
             'property_value' => get_num_from_string($request->property_value)
         ];
@@ -1453,6 +1459,8 @@ class ApplicationController extends Controller
                     "time_at_business" => "required|array",
                     "time_at_business.*" => "required",
 
+                    "property_owner" => "required|array",
+                    "property_owner.*" => "required",
                     "property_address" => "required|array",
                     "property_address.*" => "required",
                     "property_value" => "required|array",
@@ -1541,6 +1549,8 @@ class ApplicationController extends Controller
                     "time_at_business" => "required|array",
                     "time_at_business.*" => "required",
 
+                    "crypto_property_owner" => "required|array",
+                    "crypto_property_owner.*" => "required",
                     "crypto_property_address" => "required|array",
                     "crypto_property_address.*" => "required",
                     "crypto_property_value" => "required|array",
@@ -1790,6 +1800,7 @@ class ApplicationController extends Controller
                         'application_id' => $application_id,
                         'purpose' => $request->crypto_hidden_purpose[$j],
                         'property_type' => $request->crypto_hidden_property_type[$j],
+                        'property_owner' => $request->crypto_property_owner[$j],
                         'property_address' => $request->crypto_property_address[$j],
                         'property_value' => get_num_from_string($request->crypto_property_value[$j])
                     ];
@@ -1803,6 +1814,7 @@ class ApplicationController extends Controller
                         'application_id' => $application_id,
                         'purpose' => $request->hidden_purpose[$j],
                         'property_type' => $request->hidden_property_type[$j],
+                        'property_owner' => $request->property_owner[$j],
                         'property_address' => $request->property_address[$j],
                         'property_value' => get_num_from_string($request->property_value[$j])
                     ];
@@ -3697,6 +3709,8 @@ class ApplicationController extends Controller
         } else {
             if ($apply_for == 2) {
                 $request->validate([
+                    "property_owner" => "required|array",
+                    "property_owner.*" => "required",
                     "property_address" => "required|array",
                     "property_address.*" => "required",
                     "property_value" => "required|array",
@@ -3749,6 +3763,7 @@ class ApplicationController extends Controller
                     'application_id' => $request->application_id,
                     'purpose' => $request->hidden_purpose[$i],
                     'property_type' => $request->hidden_property_type[$i],
+                    'property_owner' => $request->property_owner[$i],
                     'property_address' => $request->property_address[$i],
                     'property_value' => get_num_from_string($request->property_value[$i])
                 ];
@@ -3816,7 +3831,7 @@ class ApplicationController extends Controller
     {
 
         if ($request->brief_notes == '') {
-            return response()->json(['status' => 422, 'message' => 'Please add brief notes.']);
+            return response()->json(['status' => 422, 'message' => 'Please add Exit Strategy and Brief Notes.']);
         }
 
         if ($request->has('document_type')):

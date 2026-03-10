@@ -77,6 +77,14 @@
                               </div>
                             </div>
                         </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                              <div class="form-group">
+                                 <label for="">Property Owner <span class="text-danger">*</span></label>
+                                 <input type="text" name="property_owner" class="form-control property_owner" placeholder="Property Owner" value="" >
+                              </div>
+                            </div>
+                        </div>
                     </div>
                     
                     <div class="text-right">

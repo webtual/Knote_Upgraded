@@ -97,13 +97,19 @@
                                              <input type="text" name="property_address[]" class="form-control property_address" id="business_address" placeholder="Property Address" value="{{ $property->property_address }}" >
                                           </div>
                                        </div>
-                                    </div>
-                                    <div class="row">
                                        <div class="col-md-6">
                                           <div class="form-group input-pos-relative">
                                              <label for="">Property Value <span class="text-danger">*</span></label>
                                              <input type="text" name="property_value[]" class="form-control currency-input" id="property_value" placeholder="Property Value" value="{{ $property->property_value }}" maxlength="15" >
                                              <span class="currency-symbol">$</span>
+                                          </div>
+                                       </div>
+                                    </div>
+                                    <div class="row">
+                                       <div class="col-md-6">
+                                          <div class="form-group">
+                                             <label for="">Property Owner <span class="text-danger">*</span></label>
+                                             <input type="text" name="property_owner[]" class="form-control property_owner" placeholder="Property Owner" value="{{ $property->property_owner }}" >
                                           </div>
                                        </div>
                                     </div>
@@ -163,13 +169,19 @@
                                              <input type="text" name="property_address[]" class="form-control property_address" id="business_address" placeholder="Property Address" value="{{ isset($application->finance_information) ? $application->finance_information->property_address : '' }}" >
                                           </div>
                                        </div>
-                                    </div>
-                                    <div class="row">
                                        <div class="col-md-6">
                                           <div class="form-group input-pos-relative">
                                              <label for="">Property Value <span class="text-danger">*</span></label>
                                              <input type="text" name="property_value[]" class="form-control currency-input" id="property_value" placeholder="Property Value" value="{{ isset($application->finance_information) ? number_format($application->finance_information->property_value) : '' }}" maxlength="15" >
                                              <span class="currency-symbol">$</span>
+                                          </div>
+                                       </div>
+                                    </div>
+                                    <div class="row">
+                                       <div class="col-md-6">
+                                          <div class="form-group">
+                                             <label for="">Property Owner <span class="text-danger">*</span></label>
+                                             <input type="text" name="property_owner[]" class="form-control property_owner" placeholder="Property Owner" value="{{ isset($application->finance_information) ? $application->finance_information->property_owner : '' }}" >
                                           </div>
                                        </div>
                                     </div>
@@ -200,6 +212,7 @@
                                                 <label for="">Type of Crypto / Security? <span class="text-danger">*</span></label>
                                                 <div class="">
                                                     <input type="hidden" name="hidden_purpose[]" class="hidden_purpose" value="1">
+                                                    <input type="hidden" name="property_owner[]" class="form-control property_owner" value="">
                                                     <input type="hidden" name="property_address[]" class="form-control property_address" id="business_address" value="VIC" >
                                                     <div class="mt-3">
                                                         <h5 class="text-black">Crypto Type:</h5>
@@ -244,6 +257,7 @@
                                                 <label for="">Type of Crypto / Security? <span class="text-danger">*</span></label>
                                                 <div class="">
                                                     <input type="hidden" name="hidden_purpose[]" class="hidden_purpose" value="1">
+                                                    <input type="hidden" name="property_owner[]" class="form-control property_owner" value="">
                                                     <input type="hidden" name="property_address[]" class="property_address" value="VIC">
                                                     <div class="mt-3">
                                                         <h5 class="text-black">Crypto Type:</h5>
@@ -364,7 +378,7 @@
                         @forelse($application->team_sizes as $key_team => $team)
                             <h4 class="header-title mb-2 font-22">Personal statement of {{ $team->position }}</h4>
                             @php
-                                $f_exp_row = App\FinanceInformationByPeople::where('application_id', $application->id)->where('team_size_id', $team->id)->first();
+                                $f_exp_row = App\Models\FinanceInformationByPeople::where('application_id', $application->id)->where('team_size_id', $team->id)->first();
                             @endphp
                             <div class="d-fin-wrapper">
                                 <h4 class="text-left">

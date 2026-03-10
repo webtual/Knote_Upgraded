@@ -259,7 +259,7 @@ class UserController extends Controller
             'customer_no' => $customer_no,
             'phone' => $phone,
             'password' => Hash::make($phone),
-            'email_verified_at' => Hash::make($phone),
+            'email_verified_at' => now(),
         ]);
         $role = 3;
         $user->roles()->attach($role);

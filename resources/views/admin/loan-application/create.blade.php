@@ -130,7 +130,7 @@
                             <li class="breadcrumb-item"><a href="{{route('user.list')}}">Customers</a></li>
                             @php
                             $url = url('admin/users/loan-applications/'.\Crypt::encrypt($user_id));
-                            use App\User;
+                            use App\Models\User;
                             @endphp
                             <li class="breadcrumb-item"><a href="{{$url}}">{{$user_data->customer_no}}</a></li>
                             <li class="breadcrumb-item active">Create New Loan Application</li>
@@ -289,8 +289,8 @@
                            
                             <div class="col-md-12">
                                 <div class="form-group">
-                                    <label for="">Add Brief notes (What’s the loan for , give us a little background of requirement and proposal)<span class="text-danger">*</span></label>
-                                    <textarea name="brief_notes" class="form-control" id="brief_notes" placeholder="Add Brief notes"></textarea>
+                                    <label for="">Add Exit Strategy and Brief Notes (What’s the loan for , give us a little background of requirement and proposal)<span class="text-danger">*</span></label>
+                                    <textarea name="brief_notes" class="form-control" id="brief_notes" placeholder="Add Exit Strategy and Brief Notes"></textarea>
                                 </div>
                             </div>
                         </div>
@@ -435,6 +435,14 @@
                                           </div>
                                        </div>
                                     </div>
+                                    <div class="row">
+                                       <div class="col-md-6">
+                                          <div class="form-group">
+                                             <label for="">Property Owner <span class="text-danger">*</span></label>
+                                             <input type="text" name="property_owner[]" class="form-control property_owner" id="property_owner" placeholder="Property Owner" value="" >
+                                          </div>
+                                       </div>
+                                    </div>
                                     <hr>
                                     <div class="row">
                                         <div class="col-md-12">
@@ -461,6 +469,7 @@
                                                 <label for="">Type of Crypto / Security? <span class="text-danger">*</span></label>
                                                 <div class="">
                                                     <input type="hidden" name="crypto_hidden_purpose[]" class="crypto_hidden_purpose" value="1">
+                                                    <input type="hidden" id="crypto_property_owner" name="crypto_property_owner[]" class="crypto_property_owner" value="">
                                                     <input type="hidden" id="crypto_property_address" name="crypto_property_address[]" class="crypto_property_address" value="VIC">
                                                     
                                                     <div class="mt-3">

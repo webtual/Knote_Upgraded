@@ -27,7 +27,46 @@ class AppServiceProvider extends ServiceProvider
     */
    public function register(): void
    {
-      //
+      // Backward compatibility for moved models (Queue deshielding)
+      $models = [
+         'User',
+         'Application',
+         'TeamSize',
+         'FinanceInformation',
+         'FinanceInformationByPeople',
+         'Inquiry',
+         'PropertySecurity',
+         'Document',
+         'Role',
+         'Setting',
+         'Status',
+         'ReviewNote',
+         'AssessorReviewNote',
+         'UserLogs',
+         'BusinessStructure',
+         'BusinessType',
+         'SystemEventLog',
+         'CreditScoreEventLogs',
+         'StatusHistory',
+         'StatusHistoryes',
+         'ApplicationDocuments',
+         'ApplicationStatus',
+         'ApprovedDocuments',
+         'ApplicationApprovedDocuments',
+         'AssessorReviewDocuments',
+         'EmailSend',
+         'EmailSendAttachment',
+         'EmailTemplate',
+         'OtpVerification',
+         'ReviewDocument',
+         'TokenIdentifiers',
+      ];
+
+      foreach ($models as $model) {
+         if (!class_exists('App\\' . $model)) {
+            class_alias('App\\Models\\' . $model, 'App\\' . $model);
+         }
+      }
    }
 
    /**

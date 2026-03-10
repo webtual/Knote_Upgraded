@@ -227,6 +227,8 @@ class ApplicationController extends Controller
                     "time_at_business" => "required|array",
                     "time_at_business.*" => "required",
 
+                    "property_owner" => "required|array",
+                    "property_owner.*" => "required",
                     "property_address" => "required|array",
                     "property_address.*" => "required",
                     "property_value" => "required|array",
@@ -315,6 +317,8 @@ class ApplicationController extends Controller
                     "time_at_business" => "required|array",
                     "time_at_business.*" => "required",
 
+                    "crypto_property_owner" => "required|array",
+                    "crypto_property_owner.*" => "required",
                     "crypto_property_address" => "required|array",
                     "crypto_property_address.*" => "required",
                     "crypto_property_value" => "required|array",
@@ -480,7 +484,7 @@ class ApplicationController extends Controller
                 'customer_no' => $customer_no,
                 'phone' => $phone,
                 'password' => Hash::make($phone),
-                'email_verified_at' => Hash::make($phone),
+                'email_verified_at' => now(),
             ]);
 
             $role = 3;
@@ -604,6 +608,7 @@ class ApplicationController extends Controller
                         'application_id' => $application_id,
                         'purpose' => $request->crypto_hidden_purpose[$j],
                         'property_type' => $request->crypto_hidden_property_type[$j],
+                        'property_owner' => $request->crypto_property_owner[$j],
                         'property_address' => $request->crypto_property_address[$j],
                         'property_value' => get_num_from_string($request->crypto_property_value[$j])
                     ];
@@ -617,6 +622,7 @@ class ApplicationController extends Controller
                         'application_id' => $application_id,
                         'purpose' => $request->hidden_purpose[$j],
                         'property_type' => $request->hidden_property_type[$j],
+                        'property_owner' => $request->property_owner[$j],
                         'property_address' => $request->property_address[$j],
                         'property_value' => get_num_from_string($request->property_value[$j])
                     ];

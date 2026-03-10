@@ -219,7 +219,7 @@ class BrokersController extends Controller
         $user->is_active = 0;
         //$user->account_verified_at = now();
         $user->password = Hash::make($phone);
-        $user->email_verified_at = Hash::make($phone);
+        $user->email_verified_at = now();
         $user->save();
 
         $role = 6;

@@ -141,7 +141,7 @@ class RegisterController extends Controller
             $user->phone = $phone;
             $user->is_active = 0;
             $user->password = Hash::make($phone);
-            $user->email_verified_at = Hash::make($phone);
+            $user->email_verified_at = now();
             $user->save();
 
             $role = 6;
@@ -166,7 +166,7 @@ class RegisterController extends Controller
             'email' => $data['email'],
             'phone' => str_replace(' ', '', $data['phone']),
             'password' => Hash::make($data['password']),
-            'email_verified_at' => Hash::make($data['email'] . $data['password']),
+            'email_verified_at' => now(),
         ]);
     }
 
@@ -273,7 +273,7 @@ class RegisterController extends Controller
                         'customer_no' => $customer_no,
                         'phone' => $phone,
                         'password' => Hash::make($phone),
-                        'email_verified_at' => Hash::make($phone),
+                        'email_verified_at' => now(),
                     ]);
                     $role = 3;
                     $user->roles()->attach($role);
@@ -408,7 +408,7 @@ class RegisterController extends Controller
                     'customer_no' => $customer_no,
                     'phone' => str_replace(' ', '', $phone),
                     'password' => Hash::make($phone),
-                    'email_verified_at' => Hash::make($phone),
+                    'email_verified_at' => now(),
                 ]);
                 $user->roles()->attach($role);
                 $user_id = $user->id;

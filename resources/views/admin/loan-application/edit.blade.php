@@ -265,8 +265,8 @@
                            
                             <div class="col-md-12">
                                 <div class="form-group">
-                                    <label for="">Add Brief notes (What’s the loan for , give us a little background of requirement and proposal)<span class="text-danger">*</span></label>
-                                    <textarea name="brief_notes" class="form-control" id="brief_notes" placeholder="Add Brief notes">{{ ($application) ? $application->brief_notes : '' }}</textarea>
+                                    <label for="">Add Exit Strategy and Brief Notes (What’s the loan for , give us a little background of requirement and proposal)<span class="text-danger">*</span></label>
+                                    <textarea name="brief_notes" class="form-control" id="brief_notes" placeholder="Add Exit Strategy and Brief Notes">{{ ($application) ? $application->brief_notes : '' }}</textarea>
                                 </div>
                             </div>
                         </div>

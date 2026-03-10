@@ -323,17 +323,30 @@ Route::get('clear', function () {
     Artisan::call('config:cache');
     Artisan::call('view:clear');
     Artisan::call('storage:link');
-    return "Cleared!";
+    return response()->json([
+        'status' => 'success',
+        'message' => 'Cache, Config, View cleared and Storage link created',
+        'output' => Artisan::output()
+    ]);
 });
 
 Route::get('storage-link', function () {
-    Artisan::call('storage:link');
-    return "Storage Link Create Success!";
+    $exitCode = Artisan::call('storage:link');
+    return response()->json([
+        'status' => 'success',
+        'message' => 'Storage Link Create Success!',
+        'exitCode' => $exitCode,
+        'output' => Artisan::output()
+    ]);
 });
 
 /*Job Fire*/
 Route::get('job-fire', function () {
-    Artisan::call('queue:work --stop-when-empty');
-    echo "Job Fire.....!";
-    return "Job Fire.....!";
+    $exitCode = Artisan::call('queue:work --stop-when-empty');
+    return response()->json([
+        'status' => 'success',
+        'message' => 'Job Fire completed',
+        'exitCode' => $exitCode,
+        'output' => Artisan::output()
+    ]);
 });
