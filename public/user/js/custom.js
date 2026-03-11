@@ -2443,3 +2443,47 @@ $('#crypto-sections-container').on('change', 'input[type="radio"]', function() {
         $(this).closest('.d-crypto-sec').find('.crypto_hidden_property_type').val(v);
     }
 });
+
+/**
+ * Property Owner Multiple Input Logic
+ **/
+$(document).on('click', '.add-property-owner', function() {
+    var wrapper = $(this).closest('.property-owner-wrapper');
+    var newRow = wrapper.find('.owner-input-group').first().clone();
+    newRow.find('input').val(''); 
+    newRow.find('.add-property-owner')
+        .removeClass('btn-success add-property-owner')
+        .addClass('btn-danger remove-property-owner')
+        .html('-'); 
+        
+    wrapper.find('.owner-inputs-container').append(newRow);
+    updatePropertyOwnerJson(wrapper);
+});
+
+$(document).on('click', '.remove-property-owner', function() {
+    var wrapper = $(this).closest('.property-owner-wrapper');
+    $(this).closest('.owner-input-group').remove();
+    updatePropertyOwnerJson(wrapper);
+});
+
+$(document).on('input', '.property_owner_name', function() {
+    var wrapper = $(this).closest('.property-owner-wrapper');
+    updatePropertyOwnerJson(wrapper);
+});
+
+function updatePropertyOwnerJson(wrapper) {
+    var owners = [];
+    wrapper.find('.property_owner_name').each(function() {
+        var val = $(this).val().trim();
+        if(val !== '') {
+            owners.push({ "name": val });
+        }
+    });
+    wrapper.find('.property_owner_json').val(JSON.stringify(owners));
+}
+
+$(document).ready(function() {
+    $('.property-owner-wrapper').each(function() {
+        updatePropertyOwnerJson($(this));
+    });
+});

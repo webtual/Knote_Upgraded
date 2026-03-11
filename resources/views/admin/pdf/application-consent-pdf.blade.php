@@ -431,7 +431,19 @@
                                         <span><b>Property Value : </b>{{ money_format_amount($property->property_value) }}</span>
                                     </tr>
                                     <tr>
-                                        <span><b>Property Owner : </b>{{ ($property->property_owner) }}</span>
+                                        @php
+                                            $owners = json_decode($property->property_owner, true);
+                                            $ownerNames = [];
+                                            if (is_array($owners)) {
+                                                foreach ($owners as $owner) {
+                                                    if (isset($owner['name']) && !empty(trim($owner['name']))) {
+                                                        $ownerNames[] = $owner['name'];
+                                                    }
+                                                }
+                                            }
+                                            $displayOwner = !empty($ownerNames) ? implode(', ', $ownerNames) : $property->property_owner;
+                                        @endphp
+                                        <span><b>Property Owner : </b>{{ $displayOwner }}</span>
                                     </tr>
                                 </table>
                             @endif

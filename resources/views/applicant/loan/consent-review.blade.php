@@ -294,7 +294,19 @@
 																<div class="mb-0">
 																	<strong class="font-13 text-muted  mb-1">Property Owner :
 																	</strong>
-																	<span class="mb-2"> {{ ($property->property_owner) }} </span>
+																	@php
+																		$owners = json_decode($property->property_owner, true);
+																		$ownerNames = [];
+																		if (is_array($owners)) {
+																			foreach ($owners as $owner) {
+																				if (isset($owner['name']) && !empty(trim($owner['name']))) {
+																					$ownerNames[] = $owner['name'];
+																				}
+																			}
+																		}
+																		$displayOwner = !empty($ownerNames) ? implode(', ', $ownerNames) : $property->property_owner;
+																	@endphp
+																	<span class="mb-2"> {{ $displayOwner }} </span>
 																</div>
 															</div>
 														@endforeach

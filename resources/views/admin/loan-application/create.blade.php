@@ -435,14 +435,22 @@
                                           </div>
                                        </div>
                                     </div>
-                                    <div class="row">
-                                       <div class="col-md-6">
-                                          <div class="form-group">
-                                             <label for="">Property Owner <span class="text-danger">*</span></label>
-                                             <input type="text" name="property_owner[]" class="form-control property_owner" id="property_owner" placeholder="Property Owner" value="" >
-                                          </div>
-                                       </div>
-                                    </div>
+                                     <div class="row">
+                                        <div class="col-md-6">
+                                           <div class="form-group">
+                                              <label for="">Property Owner <span class="text-danger">*</span></label>
+                                              <div class="property-owner-wrapper">
+                                                  <div class="owner-inputs-container">
+                                                      <div class="owner-input-group d-flex mb-2">
+                                                          <input type="text" class="form-control property_owner_name property_owner_val" placeholder="Property Owner" value="" >
+                                                          <button type="button" class="btn btn-success ml-2 add-property-owner"><i class="mdi mdi-plus"></i></button>
+                                                      </div>
+                                                  </div>
+                                                  <input type="hidden" name="property_owner[]" class="property_owner_json" value="" >
+                                              </div>
+                                           </div>
+                                        </div>
+                                     </div>
                                     <hr>
                                     <div class="row">
                                         <div class="col-md-12">

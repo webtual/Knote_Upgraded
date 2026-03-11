@@ -1110,45 +1110,58 @@
 
                                                             <div class="mb-0">
                                                                 <strong class="font-13 text-muted  mb-1">Property Address : </strong>
-                                                                       <span class="mb-2"> {{ ($property->property_address) }} </span>
-                                                                    </div>
+                                                                <span class="mb-2"> {{ ($property->property_address) }} </span>
+                                                            </div>
 
-                                                                    <div class="mb-0">
-                                                                       <strong class="font-13 text-muted  mb-0">Property Value : </strong>
-                                                                       <span class="mb-0">  {{ money_format_amount($property->property_value) }}</span>
-                                                                    </div>
+                                                            <div class="mb-0">
+                                                                <strong class="font-13 text-muted  mb-0">Property Value : </strong>
+                                                                <span class="mb-0">
+                                                                    {{ money_format_amount($property->property_value) }}</span>
+                                                            </div>
 
-                                                                    <div class="mb-0">
-                                                                       <strong class="font-13 text-muted  mb-1">Property Owner : </strong>
-                                                                       <span class="mb-2"> {{ ($property->property_owner) }} </span>
-                                                                    </div>
-                                                                </div>
+                                                            <div class="mb-0">
+                                                                <strong class="font-13 text-muted  mb-1">Property Owner : </strong>
+                                                                @php
+                                                                    $owners = json_decode($property->property_owner, true);
+                                                                    $ownerNames = [];
+                                                                    if (is_array($owners)) {
+                                                                        foreach ($owners as $owner) {
+                                                                            if (isset($owner['name']) && !empty(trim($owner['name']))) {
+                                                                                $ownerNames[] = $owner['name'];
+                                                                            }
+                                                                        }
+                                                                    }
+                                                                    $displayOwner = !empty($ownerNames) ? implode(', ', $ownerNames) : $property->property_owner;
+                                                                @endphp
+                                                                                       <span class="mb-2"> {{ $displayOwner }} </span>
+                                                                                    </div>
+                                                                                </div>
                                                     @endforeach
-                                                    </div>
+                                                                </div>
                                             @endif
 
-                                            @if($application->apply_for == 3)
-                                                <div class="wrapper-pro-securities">
-                                                    @foreach($application->property_securities as $key_property => $property)
-                                                        <div class="mb-2 font-15 font-weight-bold text-success">
-                                                            Crypto / Security : {{$key_property + 1}}
-                                                            <a id="edit-crypto-security" data-id="{{$property->id}}" class="edit-crypto-security" href="javascript: void(0)"><i class="fe-edit text-right edit-pin text-success"></i></a>
+                                                    @if($application->apply_for == 3)
+                                                        <div class="wrapper-pro-securities">
+                                                            @foreach($application->property_securities as $key_property => $property)
+                                                                <div class="mb-2 font-15 font-weight-bold text-success">
+                                                                    Crypto / Security : {{$key_property + 1}}
+                                                                    <a id="edit-crypto-security" data-id="{{$property->id}}" class="edit-crypto-security" href="javascript: void(0)"><i class="fe-edit text-right edit-pin text-success"></i></a>
+                                                                </div>
+                                                                <div class="d-property-sec-review">
+                                                                    <div class="mb-0 ">
+                                                                        <strong class="font-13 text-muted  mb-1">Type of Crypto / Security : </strong>
+                                                                        <span class="mb-2"> 
+                                                                            {{ ($property_loan_types[$property->property_type]) }}
+                                                                        </span>
+                                                                    </div>
+                                                                    <div class="mb-0">
+                                                                       <strong class="font-13 text-muted  mb-0">Crypto Value : </strong>
+                                                                       <span class="mb-0">  {{ money_format_amount($property->property_value) }}</span>
+                                                                    </div>
+                                                                </div>
+                                                            @endforeach
                                                         </div>
-                                                        <div class="d-property-sec-review">
-                                                            <div class="mb-0 ">
-                                                                <strong class="font-13 text-muted  mb-1">Type of Crypto / Security : </strong>
-                                                                <span class="mb-2"> 
-                                                                    {{ ($property_loan_types[$property->property_type]) }}
-                                                                </span>
-                                                            </div>
-                                                            <div class="mb-0">
-                                                               <strong class="font-13 text-muted  mb-0">Crypto Value : </strong>
-                                                               <span class="mb-0">  {{ money_format_amount($property->property_value) }}</span>
-                                                            </div>
-                                                        </div>
-                                                    @endforeach
-                                                </div>
-                                              @endif
+                                                      @endif
 
                                         @endif
 
@@ -3132,7 +3145,28 @@
                     $('.security_id').val(response.data.id);
                     $('#hidden_purpose').val(response.data.purpose);
                     $('#hidden_property_type').val(response.data.property_type);
-                    $('.property_owner').val(response.data.property_owner);
+                    $('.property_owner_json').val(response.data.property_owner);
+                    try {
+                        var owners = JSON.parse(response.data.property_owner);
+                        $('.property-owner-wrapper .owner-inputs-container').empty();
+                        if (Array.isArray(owners) && owners.length > 0) {
+                            $.each(owners, function(index, owner) {
+                                var btn = (index === 0) ? '<button type="button" class="btn btn-success ml-2 add-property-owner"><i class="mdi mdi-plus"></i></button>' : '<button type="button" class="btn btn-danger ml-2 remove-property-owner"><i class="mdi mdi-minus"></i></button>';
+                                var html = '<div class="owner-input-group d-flex mb-2">' +
+                                    '<input type="text" class="form-control property_owner_name property_owner_val" placeholder="Property Owner" value="'+(owner.name || '')+'" >' +
+                                    btn +
+                                '</div>';
+                                $('.property-owner-wrapper .owner-inputs-container').append(html);
+                            });
+                        }
+                    } catch (e) {
+                         $('.property-owner-wrapper .owner-inputs-container').empty();
+                         var html = '<div class="owner-input-group d-flex mb-2">' +
+                                '<input type="text" class="form-control property_owner_name property_owner_val" placeholder="Property Owner" value="'+(response.data.property_owner || '')+'" >' +
+                                '<button type="button" class="btn btn-success ml-2 add-property-owner"><i class="mdi mdi-plus"></i></button>' +
+                            '</div>';
+                         $('.property-owner-wrapper .owner-inputs-container').append(html);
+                    }
                     $('.property_address').val(response.data.property_address);
                     $('.property_value').val(response.data.property_value);
 

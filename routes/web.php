@@ -3,7 +3,11 @@
 Route::get('/', function () {
     return redirect()->to(route('loan-applicant'));
 })->name('root');
-Auth::routes();
+
+Auth::routes(['login' => false]);
+Route::get('/login', function () {
+    return redirect()->to(route('login.internal'));
+})->name('login');
 //Route::get('application/generate-document', 'ApplicationDocumentController@generate_document_sample')->name('application.document.generateDocument');
 //CRON
 Route::get('cron/application/incomplete', 'CronController@incomplete_application')->name('cron.application.incomplete');
