@@ -117,6 +117,11 @@ class Application extends Model
         return Carbon::parse($this->created_at)->format('Y-m-d');
     }
 
+    public function referral_partner(): \Illuminate\Database\Eloquent\Relations\HasOne
+    {
+        return $this->hasOne('App\Models\ApplicationReferralPartner', 'application_id');
+    }
+
     public function last_application_number(): string
     {
 

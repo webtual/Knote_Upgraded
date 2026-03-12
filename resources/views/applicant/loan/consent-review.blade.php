@@ -100,6 +100,32 @@
 												</strong>
 												<span class="mb-2">{{ $know_about_us_val }}</span>
 											</div>
+											<div class="mb-0">
+												<strong class="font-13 text-muted mb-1">Exit Strategy and Brief Notes :
+												</strong>
+												<span class="mb-2">{{ $application->brief_notes }}</span>
+											</div>
+											@if($application->referral_partner)
+												<div class="mt-0">
+													<h3
+														class="header-title font-15 border-bottom border-success pb-1 text-success">
+														Referral Partner Details</h3>
+													<div class="mb-0">
+														<strong class="font-13 text-muted mb-1">Name : </strong>
+														<span class="mb-2">{{ $application->referral_partner->name }}</span>
+													</div>
+													<div class="mb-0">
+														<strong class="font-13 text-muted mb-1">Phone : </strong>
+														<span
+															class="mb-2">{{ $application->referral_partner->phone }}</span>
+													</div>
+													<div class="mb-0">
+														<strong class="font-13 text-muted mb-1">Email : </strong>
+														<span
+															class="mb-2">{{ $application->referral_partner->email }}</span>
+													</div>
+												</div>
+											@endif
 										</div>
 									</div>
 								</div>
@@ -524,14 +550,6 @@
 													</tbody>
 												@endforeach
 										</table>
-									</div>
-
-									<div class="mb-3 mt-1">
-										<div class="mb-0">
-											<strong class="font-13 text-muted  mb-1">Exit Strategy and Brief Notes :
-											</strong>
-											<span class="mb-2">{{ $application->brief_notes }}</span>
-										</div>
 									</div>
 
 									<div class="row">

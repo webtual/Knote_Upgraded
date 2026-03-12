@@ -1171,6 +1171,9 @@ Update Assessor Review & status
 *********************/
 
 $('#assessor-review-note').click(function(){
+    var btn = $(this);
+    var originalHtml = btn.html();
+    
     var urls = $('#assessor-write-review').attr('action');
     
     var status_vals = $('#status_vals').val();
@@ -1178,6 +1181,8 @@ $('#assessor-review-note').click(function(){
     var formData = new FormData($('#assessor-write-review')[0]);
     formData.append('status_vals', status_vals);
 
+    btn.prop('disabled', true).html('<i class="mdi mdi-loading mdi-spin mr-1"></i> ' + originalHtml);
+    $('.gocover').show();
     $.ajax({
         type: 'POST',
         url: urls,
@@ -1186,6 +1191,8 @@ $('#assessor-review-note').click(function(){
         contentType: false,
         headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
         success: function(response) {
+            btn.prop('disabled', false).html(originalHtml);
+            $('.gocover').hide();
             if(response.status == 201){
                 $("#assessor_note").val('');
                 $("#assessor_file").val('');
@@ -1193,6 +1200,8 @@ $('#assessor-review-note').click(function(){
             }
         },
         error: function (reject) {
+            btn.prop('disabled', false).html(originalHtml);
+            $('.gocover').hide();
             $('.error-block-assessor').remove();
             if(reject.status === 422) {
                 var errors = $.parseJSON(reject.responseText);
@@ -1240,8 +1249,14 @@ Update Review & status
 *********************/
 
 $('#review-note').click(function(){
+    var btn = $(this);
+    var originalHtml = btn.html();
+    
     var url = $('#write-review').attr('action');
     var redirect_url = $('#write-review').data('redirect');
+    
+    btn.prop('disabled', true).html('<i class="mdi mdi-loading mdi-spin mr-1"></i> ' + originalHtml);
+    $('.gocover').show();
     $.ajax ({
         type: 'POST',
         url: url,
@@ -1249,6 +1264,8 @@ $('#review-note').click(function(){
         data: $("#write-review").serialize(),
         headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
         success : function(response) {
+            btn.prop('disabled', false).html(originalHtml);
+            $('.gocover').hide();
             if(response.status == 201){
                 $("#reviewnote").val('');
                 //$("#write-review")['0'].reset();
@@ -1258,6 +1275,8 @@ $('#review-note').click(function(){
             }    
         },
         error: function (reject) {
+            btn.prop('disabled', false).html(originalHtml);
+            $('.gocover').hide();
              $('.error-block-notes').remove();
             if( reject.status === 422 ) {
                 var errors = $.parseJSON(reject.responseText);
@@ -1314,8 +1333,13 @@ $('#review-status-update-note').click(function(){
 });
 
 $('#submit-assessor-notes').click(function(){
+    var btn = $(this);
+    var originalHtml = btn.html();
         
     var url = $('#popup_assessor_note_form').attr('action');
+
+    btn.prop('disabled', true).html('<i class="mdi mdi-loading mdi-spin mr-1"></i> ' + originalHtml);
+    $('.gocover').show();
     $.ajax ({
         type: 'POST',
         url: url,
@@ -1323,6 +1347,8 @@ $('#submit-assessor-notes').click(function(){
         data: $("#popup_assessor_note_form").serialize(),
         headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
         success : function(response) {
+            btn.prop('disabled', false).html(originalHtml);
+            $('.gocover').hide();
             if(response.status == 201){
                 $('#status_notes').modal('hide');
                 toaserMessage(response.status, response.message);
@@ -1332,6 +1358,8 @@ $('#submit-assessor-notes').click(function(){
             }
         },
         error: function (reject) {
+            btn.prop('disabled', false).html(originalHtml);
+            $('.gocover').hide();
             if( reject.status === 422 ) {
                 var errors = $.parseJSON(reject.responseText);
                 var errors = errors['errors'];

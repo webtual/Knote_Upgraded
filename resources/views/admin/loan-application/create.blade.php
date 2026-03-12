@@ -293,6 +293,27 @@
                                     <textarea name="brief_notes" class="form-control" id="brief_notes" placeholder="Add Exit Strategy and Brief Notes"></textarea>
                                 </div>
                             </div>
+                            <div class="col-md-12 mt-0">
+                                <h3 class="text-success">Referral Partner Details</h3>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="rp_name">Name</label>
+                                    <input type="text" name="rp_name" class="form-control" id="rp_name" placeholder="Referral Partner Name">
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="rp_phone">Phone</label>
+                                    <input type="text" name="rp_phone" class="form-control phone-field" id="rp_phone" placeholder="Referral Partner Phone">
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="rp_email">Email</label>
+                                    <input type="email" name="rp_email" class="form-control" id="rp_email" placeholder="Referral Partner Email">
+                                </div>
+                            </div>
                         </div>
                         
                         <div class="row loan-form-page">

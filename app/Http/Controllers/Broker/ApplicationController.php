@@ -26,6 +26,7 @@ use App\Models\EmailSend;
 use App\Models\EmailSendAttachment;
 use App\Models\EmailTemplate;
 use App\Models\StatusHistory;
+use App\Models\ApplicationReferralPartner;
 
 use App\Models\ApprovedDocuments;
 use App\Models\ApplicationApprovedDocuments;
@@ -171,6 +172,9 @@ class ApplicationController extends Controller
                 "liability_living_expense_limit.*" => "required",
                 "liability_living_expense_repayment" => "required|array",
                 "liability_living_expense_repayment.*" => "required",
+                'rp_name' => 'nullable',
+                'rp_phone' => 'nullable|min:12',
+                'rp_email' => 'nullable|email',
             ];
 
         } else {
@@ -264,6 +268,9 @@ class ApplicationController extends Controller
                     "liability_living_expense_limit.*" => "required",
                     "liability_living_expense_repayment" => "required|array",
                     "liability_living_expense_repayment.*" => "required",
+                    'rp_name' => 'nullable',
+                    'rp_phone' => 'nullable|min:12',
+                    'rp_email' => 'nullable|email',
                 ];
             } else {
                 $rules = [
@@ -354,6 +361,9 @@ class ApplicationController extends Controller
                     "liability_living_expense_limit.*" => "required",
                     "liability_living_expense_repayment" => "required|array",
                     "liability_living_expense_repayment.*" => "required",
+                    'rp_name' => 'nullable',
+                    'rp_phone' => 'nullable|min:12',
+                    'rp_email' => 'nullable|email',
                 ];
             }
 
@@ -523,6 +533,15 @@ class ApplicationController extends Controller
         //$update_num->application_number = date('Y').date('m').date('d').$application_id;
         $update_num->application_number = $last_application_number;
         $update_num->save();
+
+        $rp_data = [
+            'application_id' => $application_id,
+            'name' => $request->rp_name,
+            'phone' => $request->rp_phone,
+            'email' => $request->rp_email,
+        ];
+        ApplicationReferralPartner::updateOrCreate(['application_id' => $application_id], $rp_data);
+
         //STEP-1 END
 
         //STEP-2 START

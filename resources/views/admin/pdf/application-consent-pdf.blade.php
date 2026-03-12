@@ -250,6 +250,33 @@
             <td><b>How did you know about us? :</b></td>
             <td>{{ $know_about_us_val }}</td>
         </tr>
+        @if($application->brief_notes)
+        <tr>
+            <td><b>Exit Strategy and Brief Notes :</b></td>
+            <td>{{ $application->brief_notes }}</td>
+        </tr>
+        @endif
+        @if($application->referral_partner)
+        <tr>
+            <td colspan="2"><hr class="hr-line"></td>
+        </tr>
+        <tr>
+            <td><h3 class="my-0">Referral Partner Details</h3></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td><b>Name :</b></td>
+            <td>{{ $application->referral_partner->name }}</td>
+        </tr>
+        <tr>
+            <td><b>Phone :</b></td>
+            <td>{{ $application->referral_partner->phone }}</td>
+        </tr>
+        <tr>
+            <td><b>Email :</b></td>
+            <td>{{ $application->referral_partner->email }}</td>
+        </tr>
+        @endif
     </table>
 
     @if(sizeof($application->team_sizes) != 0)
@@ -648,22 +675,6 @@
         </table>
     @endif
 
-    @if($application->brief_notes)
-        <table>
-            <tr>
-                <td>
-                    <h3 class="">Exit Strategy and Brief Notes</h3>
-                </td>
-            </tr>
-        </table>
-        <table>
-            <tr>
-                <td>
-                    <p class="briefnotes">{{ $application->brief_notes }}</p>
-                </td>
-            </tr>
-        </table>
-    @endif
     <div class="page-break"></div>
     <h3>Authority To Obtain Credit Information</h3>
     <div class=" border p-2">

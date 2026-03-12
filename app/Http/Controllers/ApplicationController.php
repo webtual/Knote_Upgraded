@@ -26,6 +26,7 @@ use App\Models\EmailSendAttachment;
 use App\Models\EmailTemplate;
 use App\Models\StatusHistory;
 use App\Models\CreditScoreEventLogs;
+use App\Models\ApplicationReferralPartner;
 
 use App\Models\ApprovedDocuments;
 use App\Models\ApplicationApprovedDocuments;
@@ -1189,6 +1190,9 @@ class ApplicationController extends Controller
         $rules = [
             'apply_for' => 'required',
             'brief_notes' => 'required',
+            'rp_name' => 'nullable',
+            'rp_phone' => 'nullable',
+            'rp_email' => 'nullable|email',
             'abn_acn' => 'required|max:11|regex:/^[^\s]*$/',
             'year_established' => 'required',
             'business_structure' => 'required',
@@ -1258,6 +1262,17 @@ class ApplicationController extends Controller
         $data->amount_request = get_num_from_string($request->loan_amount_requested);
         $data->save();
 
+        if ($request->has('rp_name')) {
+            ApplicationReferralPartner::updateOrCreate(
+                ['application_id' => $data->id],
+                [
+                    'name' => $request->rp_name,
+                    'phone' => $request->rp_phone,
+                    'email' => $request->rp_email
+                ]
+            );
+        }
+
         //ADMIN LOG START
         $body = 'The Business Information of Loan Application Number : ' . $data->application_number . ' has been updated';
         $title = 'Loan Application Business Information Update';
@@ -1322,6 +1337,9 @@ class ApplicationController extends Controller
             $rules = [
                 'apply_for' => 'required',
                 'brief_notes' => 'required',
+                'rp_name' => 'nullable',
+                'rp_phone' => 'nullable',
+                'rp_email' => 'nullable|email',
                 'abn_acn' => 'required|max:11|regex:/^[^\s]*$/',
                 'year_established' => 'required',
                 'business_structure' => 'required',
@@ -1413,6 +1431,9 @@ class ApplicationController extends Controller
                 $rules = [
                     'apply_for' => 'required',
                     'brief_notes' => 'required',
+                    'rp_name' => 'nullable',
+                    'rp_phone' => 'nullable',
+                    'rp_email' => 'nullable|email',
                     'abn_acn' => 'required|max:11|regex:/^[^\s]*$/',
                     'year_established' => 'required',
                     'business_structure' => 'required',
@@ -1726,6 +1747,16 @@ class ApplicationController extends Controller
         //$update_num->application_number = date('Y').date('m').date('d').$application_id;
         $update_num->application_number = $last_application_number;
         $update_num->save();
+
+        if ($request->rp_name || $request->rp_phone || $request->rp_email) {
+            $referral_partner = new ApplicationReferralPartner();
+            $referral_partner->application_id = $application_id;
+            $referral_partner->name = $request->rp_name;
+            $referral_partner->phone = $request->rp_phone;
+            $referral_partner->email = $request->rp_email;
+            $referral_partner->save();
+        }
+
         //STEP-1 END
 
         //STEP-2 START
