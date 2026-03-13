@@ -6,8 +6,8 @@
 <style>
 .dataTables_wrapper .dataTables_paginate .paginate_button.current, .dataTables_wrapper .dataTables_paginate .paginate_button.current:hover,.dataTables_wrapper .dataTables_paginate .paginate_button:hover{
     background: #1abc9c !important;
-  border-color: #1abc9c !important;
-  color: #fff !important;
+    border-color: #1abc9c !important;
+    color: #fff !important;
 }
 .dataTables_wrapper .dataTables_paginate .paginate_button:active{
     box-shadow: none !important;
@@ -23,9 +23,6 @@
          <div class="col-12">
             <div class="page-title-box">
                <div class="page-title-right">
-                  <!--<ol class="breadcrumb m-0">
-                     <li class="breadcrumb-item active">Customers</li>
-                  </ol>-->
                   <a class="btn btn-warning" href="{{route('users.create')}}">Create</a>
                </div>
                 <h4 class="page-title">

@@ -259,8 +259,15 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'is_admin']], functi
     Route::get('users', 'UserController@index')->name('user.list');
     Route::get('users/ajax', 'UserController@ajax_list')->name('user.ajax.list');
     Route::get('users-export', 'UserController@export_data')->name('users.export');
-    //Route::post('users-delete', 'UserController@destroy')->name('users.delete');
     Route::post('users-delete', 'UserController@destroy_users')->name('users.delete.one');
+
+    /*Internal Users (Staff)*/
+    Route::get('staff/users', 'UserController@internal_index')->name('staff.users.list');
+    Route::get('staff/users/ajax', 'UserController@internal_ajax_list')->name('staff.users.ajax.list');
+    Route::get('staff/users/create', 'UserController@internal_create')->name('staff.users.create');
+    Route::post('staff/users/create', 'UserController@internal_store')->name('staff.users.store');
+    Route::post('staff/users/update', 'UserController@internal_users_update')->name('staff.users.update');
+    Route::post('staff/users/status/update', 'UserController@internal_users_status_update')->name('staff.users.status.update');
 
 
     //Brokers
@@ -291,6 +298,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'is_admin']], functi
 
     Route::post('get-users', 'UserController@get_users')->name('get.users');
     Route::post('users/update', 'UserController@users_update')->name('users.update');
+    Route::post('users/status/update', 'UserController@users_status_update')->name('users.status.update');
 
     // Create new loan application
     Route::get('users/{enc_user_id}/loan-application/create', 'ApplicationController@admin_create_loan_application')->name('users.new.loan.application');

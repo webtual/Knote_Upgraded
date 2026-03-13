@@ -57,7 +57,7 @@
                     
                     <div class="col-lg-12 text-right">
                         <hr>
-                        <button class="btn btn-success mt-3" type="submit" id="customer-add">Save</button>
+                        <button class="btn btn-success mt-3" type="submit" id="user-add">Save</button>
                     </div>
                 </div>
                </div>
@@ -80,26 +80,19 @@
 
 <script>
    
-   $('#customer-add').click(function(){
-        var url = $('#customer-add').closest('form').attr('action');
+   $('#user-add').click(function(){
+        var url = $('#user-add').closest('form').attr('action');
         $.ajax ({
             type: 'POST',
             url: url,
             async: false,
-            data: $('#customer-add').closest('form').serialize(),
+            data: $('#user-add').closest('form').serialize(),
             headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
             success : function(response) {
                 if(response.status == 200){
-                    $('#customer-add').closest('form')[0].reset();
+                    $('#user-add').closest('form')[0].reset();
                     toaserMessage(response.status, response.message);
                     setTimeout(function(){ window.location.href = "{{ url('admin/users') }}"; }, 2000);
-                    /*Swal.fire({
-                      title: "",
-                      text: response.message,
-                      icon: "success"
-                    }).then(function(){
-                        window.location.href = "{{ url('admin/users') }}"
-                    });*/
                 }
             },
             error: function (reject) {
@@ -111,7 +104,7 @@
     
                     // Loop through the errors and display them below the respective input fields
                     $.each(errors, function(key, message) {
-                        var inputField = $('input[name=' + key + ']');
+                        var inputField = $('[name=' + key + ']');
                         inputField.after('<span class="text-danger">' + message[0] + '</span>');
                     });
                 }

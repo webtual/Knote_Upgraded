@@ -62,6 +62,15 @@
                   </a>
                </li>
 
+               @if(auth()->user()->roles()->first()->id == 1)
+               <li>
+                  <a href="{{ route('staff.users.list') }}">
+                     <i class="fe-users"></i>
+                     <span> Users </span>
+                  </a>
+               </li>
+               @endif
+
                <li>
                   <a href="{{ url('admin/brokers') }}">
                      <i class="fe-users"></i>

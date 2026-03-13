@@ -22,7 +22,7 @@ class UserController extends Controller
     public function get_users(Request $request): \Illuminate\Http\JsonResponse
     {
         $customer_id = $request->customer_id;
-        $data = User::find($customer_id);
+        $data = User::with('roles')->find($customer_id);
 
         return response()->json(['status' => 200, 'message' => 'success.', 'data' => $data]);
     }
@@ -63,10 +63,94 @@ class UserController extends Controller
         return response()->json(['status' => 200, 'message' => 'User details has been updated successfully.', 'data' => '']);
     }
 
+    public function internal_users_update(Request $request): \Illuminate\Http\JsonResponse
+    {
+        $customer_id = $request->customer_id;
+
+        // Remove spaces from the phone field
+        $phone = str_replace(' ', '', $request->phone);
+
+        $rules = [
+            'fullname' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'email', 'max:255', Rule::unique('users', 'email')->ignore($customer_id)],
+            'phone' => ['required', 'regex:/^([0-9\s\-\+\(\)]*)$/', 'min:10', Rule::unique('users', 'phone')->ignore($customer_id)],
+        ];
+
+        $customMessages = [
+            'phone.min' => 'The phone format is invalid.',
+        ];
+
+        // Update request with the sanitized phone number
+        $request->merge(['phone' => $phone]);
+
+        $this->validate($request, $rules, $customMessages);
+
+        $data = User::find($customer_id);
+        $data->name = $request->fullname;
+        $data->email = $request->email;
+        $data->phone = $phone;
+        $data->address = $request->address;
+
+        if ($request->hasFile('profile_picture')) {
+            $image = $request->file('profile_picture');
+            $imageName = 'user/' . str_random(40) . '.' . $image->getClientOriginalExtension();
+            Storage::disk('public')->put($imageName, file_get_contents($image));
+            $data->avtar = $imageName;
+        }
+
+        $data->save();
+
+        $body = 'The user ' . $data->name . ' has been updated';
+        //ADMIN LOG START
+        $this->store_logs('admin', 'User Updated', $body);
+        //ADMIN LOG END
+
+        return response()->json(['status' => 200, 'message' => 'User details has been updated successfully.', 'data' => '']);
+    }
+
+    public function internal_users_status_update(Request $request): \Illuminate\Http\JsonResponse
+    {
+        $user_id = $request->id;
+        $user = User::find($user_id);
+        if ($user) {
+            $user->status = $request->status;
+            $user->save();
+
+            $status_text = ($request->status == 1) ? 'activated' : 'deactivated';
+            $body = 'The user ' . $user->name . ' has been ' . $status_text;
+            $this->store_logs('admin', 'User Status Updated', $body);
+
+            return response()->json(['status' => 200, 'message' => 'User status updated successfully.']);
+        }
+        return response()->json(['status' => 404, 'message' => 'User not found.']);
+    }
+
+    public function users_status_update(Request $request): \Illuminate\Http\JsonResponse
+    {
+        $user_id = $request->id;
+        $user = User::find($user_id);
+        if ($user) {
+            $user->is_active = $request->is_active;
+            $user->save();
+
+            $status_text = ($request->is_active == 1) ? 'activated' : 'deactivated';
+            $body = 'The user ' . $user->name . ' has been ' . $status_text;
+            $this->store_logs('admin', 'User Status Updated', $body);
+
+            return response()->json(['status' => 200, 'message' => 'User status updated successfully.']);
+        }
+        return response()->json(['status' => 404, 'message' => 'User not found.']);
+    }
 
     public function index(): \Illuminate\View\View
     {
         return view('admin.users.list');
+    }
+
+    public function internal_index(): \Illuminate\View\View
+    {
+        $roles = \App\Models\Role::whereIn('id', [1, 2, 4])->get();
+        return view('admin.users.staff-list', compact('roles'));
     }
 
     public function ajax_list(Request $request)
@@ -129,7 +213,66 @@ class UserController extends Controller
             ->rawColumns(['order_by_val', 'customer_no', 'action'])
             ->make(true);
     }
+    public function internal_ajax_list(Request $request)
+    {
 
+        $data = User::with('roles')->whereHas('roles', function ($q) {
+            $q->whereIn('roles.id', [1, 2, 4]);
+        })->where('id', '!=', 1);
+
+        if ($request->has('search_name') && $request->filled('search_name')) {
+            $data->where('name', 'like', '%' . $request->search_name . '%');
+        }
+
+        if ($request->has('search_phone') && $request->filled('search_phone')) {
+            $data->where('phone', 'like', '%' . $request->search_phone . '%');
+        }
+
+        if ($request->has('search_email') && $request->filled('search_email')) {
+            $data->where('email', 'like', '%' . $request->search_email . '%');
+        }
+
+
+        if ($request->filled('search_daterange')) {
+            list($search_start_date, $search_end_date) = explode(' - ', $request['search_daterange']);
+            $search_start_date = str_replace('/', '-', $search_start_date);
+            $search_end_date = str_replace('/', '-', $search_end_date);
+            $from_date = date('Y-m-d', strtotime($search_start_date));
+            $to_date = date('Y-m-d', strtotime($search_end_date));
+            $to_date = date('Y-m-d', strtotime($to_date . ' + 1 days'));
+            $data->whereBetween('created_at', [$from_date, $to_date]);
+        }
+
+        $data = $data->orderBy('id', 'DESC')->get();
+
+        return Datatables::of($data)
+            ->addIndexColumn()
+            ->addColumn('role', function ($row) {
+                return $row->roles->pluck('role_name')->implode(', ');
+            })
+            ->addColumn('status', function ($row) {
+                $checked = ($row->status == 1) ? 'checked' : '';
+                return '<div class="custom-control custom-switch">
+                            <input type="checkbox" class="custom-control-input status-switch" id="statusSwitch' . $row->id . '" data-id="' . $row->id . '" ' . $checked . '>
+                            <label class="custom-control-label" for="statusSwitch' . $row->id . '"></label>
+                        </div>';
+            })
+            ->addColumn('created_at', function ($row) {
+                return display_date_format_time($row->created_at);
+            })
+            ->addColumn('order_by_val', function ($row) {
+                return strtotime($row->created_at);
+            })
+            ->addColumn('action', function ($row) {
+                $html = '';
+                $html .= '<a href="javascript:;" title="Edit" data-id="' . $row->id . '" class="action-icon users-edit"><i class="fa fa-edit text-success"></i></a>';
+
+                $html .= '<a href="javascript:;" title="Delete" data-action="' . url('admin/users-delete') . '" data-id="' . $row->id . '" class="action-icon users-delete"><i class="mdi mdi-delete text-danger"></i></a>';
+                return $html;
+            })
+            ->rawColumns(['order_by_val', 'status', 'action'])
+            ->make(true);
+    }
     public function export_data(Request $request)
     {
         $t = time();
@@ -205,18 +348,27 @@ class UserController extends Controller
 
         die();
     }
-
     public function create(Request $request)
     {
         return view('admin.users.create');
     }
 
+    public function internal_create(Request $request)
+    {
+        $roles = \App\Models\Role::whereIn('id', [1, 2, 4])->get();
+        return view('admin.users.staff-create', compact('roles'));
+    }
+
     public function store(Request $request)
     {
+        // Sanitize phone number before validation
+        $phone = str_replace(' ', '', $request->phone);
+        $request->merge(['phone' => $phone]);
+
         $rules = [
             'fullname' => 'required',
-            'email_address' => 'required|email',
-            'phone' => 'required|min:12',
+            'email_address' => 'required|email|unique:users,email',
+            'phone' => 'required|min:10|unique:users,phone',
         ];
 
         $customMessages = [
@@ -236,19 +388,6 @@ class UserController extends Controller
             ], 422);
         }
 
-        // Process the form if validation passes.
-        $phone = str_replace(' ', '', $request->phone);
-        $user = User::where('phone', $phone)->first();
-
-        if ($user != null) {
-            // Return custom error message with status code 422
-            return response()->json([
-                'status' => 'error',
-                'errors' => [
-                    'phone' => ['The entered phone number already exists.']
-                ],
-            ], 422);
-        }
 
         $users = new User;
         $customer_no = $users->last_customer_no();
@@ -271,13 +410,79 @@ class UserController extends Controller
 
         return response()->json(['status' => 200, 'message' => 'Your customer has been successfully added.']);
     }
+    public function internal_store(Request $request)
+    {
+        // Sanitize phone number before validation
+        $phone = str_replace(' ', '', $request->phone);
+        $request->merge(['phone' => $phone]);
+
+        $rules = [
+            'fullname' => 'required',
+            'email_address' => 'required|email|unique:users,email',
+            'phone' => 'required|min:10|unique:users,phone',
+            'role_id' => 'required',
+        ];
+
+        $customMessages = [
+            'fullname.required' => 'The full name field is required.',
+            'email_address.required' => 'The email address field is required.',
+            'email_address.email' => 'Please enter a valid email address.',
+            'phone.required' => 'The phone number field is required.',
+            'phone.min' => 'Please enter a valid phone number.'
+        ];
+
+        $validator = \Validator::make($request->all(), $rules, $customMessages);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => 'error',
+                'errors' => $validator->errors(),
+            ], 422);
+        }
+
+
+        $avtar = null;
+        if ($request->hasFile('profile_picture')) {
+            $image = $request->file('profile_picture');
+            $imageName = 'user/' . str_random(40) . '.' . $image->getClientOriginalExtension();
+            Storage::disk('public')->put($imageName, file_get_contents($image));
+            $avtar = $imageName;
+        }
+
+        $user = User::create([
+            'name' => $request->fullname,
+            'email' => $request->email_address,
+            'phone' => $phone,
+            'address' => $request->address,
+            'avtar' => $avtar,
+            'password' => Hash::make($phone),
+            'email_verified_at' => now(),
+            'status' => 1,
+        ]);
+
+        $user->roles()->attach($request->role_id);
+
+        $body = 'The user ' . $user->name . ' has been added';
+        //ADMIN LOG START
+        $this->store_logs('admin', 'New User Added', $body);
+        //ADMIN LOG END
+
+        return response()->json(['status' => 200, 'message' => 'User has been successfully added.']);
+    }
 
     public function user_profile_update(Request $request)
     {
+        $user_id = auth()->user()->id;
+
+        // Sanitize phone and email before validation
+        $phone = str_replace(' ', '', $request->phone);
+        $email = trim($request->email);
+        $request->merge(['phone' => $phone, 'email' => $email]);
+
         $rules = [
             'fullname' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users,email,' . auth()->user()->id],
-            'phone' => ['required', 'regex:/^([0-9\s\-\+\(\)]*)$/', 'min:10', 'unique:users,phone,' . auth()->user()->id],
+            'email' => ['required', 'string', 'email', 'max:255'],
+            'phone' => ['required', 'regex:/^([0-9\s\-\+\(\)]*)$/', 'min:10'],
         ];
 
         $customMessages = [
@@ -285,9 +490,11 @@ class UserController extends Controller
         ];
 
         $this->validate($request, $rules, $customMessages);
-        $data = User::find(auth()->user()->id);
+
+        $data = User::find($user_id);
         $data->name = $request->fullname;
-        $data->email = $request->email;
+        $data->email = $email;
+        $data->phone = $phone;
 
         /*if($request->filled('profile_picture')){
 
@@ -318,17 +525,17 @@ class UserController extends Controller
 
     public function myProfileUpdate(Request $request)
     {
-        /*$request->validate([
-            'fullname' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users,email,'.auth()->user()->id],
-            'phone' => ['required', 'regex:/^([0-9\s\-\+\(\)]*)$/', 'min:10', 'unique:users,phone,'.auth()->user()->id],
-            //'profile_picture' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-        ]);*/
+        $user_id = auth()->user()->id;
+
+        // Sanitize phone and email before validation
+        $phone = str_replace(' ', '', $request->phone);
+        $email = trim($request->email);
+        $request->merge(['phone' => $phone, 'email' => $email]);
 
         $rules = [
             'fullname' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users,email,' . auth()->user()->id],
-            'phone' => ['required', 'regex:/^([0-9\s\-\+\(\)]*)$/', 'min:10', 'unique:users,phone,' . auth()->user()->id],
+            'email' => ['required', 'string', 'email', 'max:255'],
+            'phone' => ['required', 'regex:/^([0-9\s\-\+\(\)]*)$/', 'min:10'],
         ];
 
         $customMessages = [
@@ -336,11 +543,10 @@ class UserController extends Controller
         ];
         $this->validate($request, $rules, $customMessages);
 
-
-        $data = User::find(auth()->user()->id);
+        $data = User::find($user_id);
         $data->name = $request->fullname;
-        $data->email = $request->email;
-        $data->phone = $request->phone;
+        $data->email = $email;
+        $data->phone = $phone;
         $data->address = $request->address;
         //$data->about = $request->about;
         if ($request->filled('profile_picture')) {
@@ -378,8 +584,6 @@ class UserController extends Controller
             return response()->json(['status' => 404, 'message' => 'Your old password not match our records.']);
         }
     }
-
-
     public function destroy($id)
     {
         $data = User::find($id);
@@ -393,7 +597,6 @@ class UserController extends Controller
         $data->delete();
         return back()->with('success', 'Record has been removed successfully.');
     }
-
     public function destroy_users(Request $request)
     {
         $id = $request->id;
@@ -408,11 +611,9 @@ class UserController extends Controller
         $data->delete();
         return back()->with('success', 'Record has been removed successfully.');
     }
-
     public function loanApplicants()
     {
         return view('admin.users.loan-applicants');
     }
-
 
 }

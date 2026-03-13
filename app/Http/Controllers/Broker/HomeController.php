@@ -47,17 +47,21 @@ class HomeController extends Controller
 
     public function user_profile_update(Request $request)
     {
+        // Sanitize phone and email before validation
+        $phone = str_replace(' ', '', $request->phone);
+        $email = trim($request->email);
+        $request->merge(['phone' => $phone, 'email' => $email]);
+
         $rules = [
             'fullname' => ['required', 'string', 'max:255'],
-            //'email' => ['required', 'string', 'email', 'max:255', 'unique:users,email,'.auth()->user()->id],
             'email' => ['required', 'string', 'email', 'max:255'],
             'phone' => ['required', 'regex:/^([0-9\s\-\+\(\)]*)$/', 'min:10'],
         ];
 
-        if (auth()->user()->roles[0]->slug != 'broker') {
+        /*if (auth()->user()->roles[0]->slug != 'broker') {
             $rules['phone'][] = 'unique:users,phone,' . auth()->user()->id;
             $rules['email'][] = 'unique:users,email,' . auth()->user()->id;
-        }
+        }*/
 
         $customMessages = [
             'phone.min' => 'The phone format is invalid.'
